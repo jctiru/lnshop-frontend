@@ -8,6 +8,11 @@ const INITIAL_STATE = {
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case UserActionTypes.RESET_ERROR:
+      return {
+        ...state,
+        error: null
+      };
     case UserActionTypes.SIGN_IN_SUCCESS:
       return {
         ...state,

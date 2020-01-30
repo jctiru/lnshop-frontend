@@ -8,12 +8,17 @@ import {
   selectError,
   selectSignUpSuccessMessage
 } from "../../redux/user/user.selectors";
-import { signUpStart } from "../../redux/user/user.actions";
+import { signUpStart, resetError } from "../../redux/user/user.actions";
 import Spinner from "../../components/spinner/spinner.component";
 
 import "./registerpage.styles.scss";
 
-const RegisterPage = ({ error, signUpStart, signUpSuccessMessage }) => {
+const RegisterPage = ({
+  error,
+  signUpStart,
+  signUpSuccessMessage,
+  resetError
+}) => {
   const [userCredentials, setCredentials] = useState({
     firstName: "",
     lastName: "",
@@ -25,8 +30,16 @@ const RegisterPage = ({ error, signUpStart, signUpSuccessMessage }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    resetError();
+  }, [resetError]);
+
+  useEffect(() => {
     let errorObject = {};
-    if (error) {
+    if (
+      error !== null &&
+      error.errors !== null &&
+      Array.isArray(error.errors)
+    ) {
       errorObject = error.errors.reduce((acc, cv) => {
         acc[Object.keys(cv)[0]] = cv[Object.keys(cv)[0]];
         return acc;
@@ -197,7 +210,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   signUpStart: (firstName, lastName, email, password) =>
-    dispatch(signUpStart({ firstName, lastName, email, password }))
+    dispatch(signUpStart({ firstName, lastName, email, password })),
+  resetError: () => dispatch(resetError())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

@@ -4,6 +4,10 @@ export const checkUserSession = () => ({
   type: UserActionTypes.CHECK_USER_SESSION
 });
 
+export const resetError = () => ({
+  type: UserActionTypes.RESET_ERROR
+});
+
 export const signInStart = emailAndPassword => ({
   type: UserActionTypes.SIGN_IN_START,
   payload: emailAndPassword
