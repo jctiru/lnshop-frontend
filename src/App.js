@@ -11,6 +11,9 @@ import { checkUserSession } from "./redux/user/user.actions";
 import "./App.css";
 
 const LoginPage = lazy(() => import("./pages/login/loginpage.component"));
+const RegisterPage = lazy(() =>
+  import("./pages/register/registerpage.component")
+);
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -26,6 +29,13 @@ const App = ({ checkUserSession, currentUser }) => {
             exact
             path="/login"
             render={() => (currentUser ? <Redirect to="/" /> : <LoginPage />)}
+          />
+          <Route
+            exact
+            path="/register"
+            render={() =>
+              currentUser ? <Redirect to="/" /> : <RegisterPage />
+            }
           />
         </Switch>
       </Suspense>

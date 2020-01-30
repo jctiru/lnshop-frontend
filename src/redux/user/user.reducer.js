@@ -2,6 +2,7 @@ import { UserActionTypes } from "./user.types";
 
 const INITIAL_STATE = {
   currentUser: null,
+  signUpSuccessMessage: null,
   error: null
 };
 
@@ -11,12 +12,21 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
+        signUpSuccessMessage: null,
         error: null
       };
     case UserActionTypes.SIGN_OUT_SUCCESS:
       return {
         ...state,
         currentUser: null,
+        signUpSuccessMessage: null,
+        error: null
+      };
+    case UserActionTypes.SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        currentUser: null,
+        signUpSuccessMessage: action.payload,
         error: null
       };
     case UserActionTypes.SIGN_IN_FAILURE:
@@ -25,6 +35,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: null,
+        signUpSuccessMessage: null,
         error: action.payload
       };
     default:
