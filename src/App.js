@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import Header from "./components/header/header.component";
+import Spinner from "./components/spinner/spinner.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 
 import "./App.css";
 
-const LoginPage = lazy(() => import("./pages/loginpage.component"));
+const LoginPage = lazy(() => import("./pages/login/loginpage.component"));
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -19,7 +20,7 @@ const App = ({ checkUserSession, currentUser }) => {
   return (
     <div>
       <Header />
-      <Suspense fallback={<div>LOADING</div>}>
+      <Suspense fallback={<Spinner />}>
         <Switch>
           <Route
             exact

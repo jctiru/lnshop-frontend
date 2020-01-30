@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { signInStart } from "../redux/user/user.actions";
+import { signInStart } from "../../redux/user/user.actions";
 
 import "./loginpage.styles.scss";
 
