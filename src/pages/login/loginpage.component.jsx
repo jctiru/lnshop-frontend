@@ -10,7 +10,7 @@ import Spinner from "../../components/spinner/spinner.component";
 
 import "./loginpage.styles.scss";
 
-const LoginPage = ({ error, signInStart, resetError }) => {
+const LoginPage = ({ error, signInStart, resetError, location }) => {
   const [userCredentials, setCredentials] = useState({
     email: "",
     password: ""
@@ -27,10 +27,12 @@ const LoginPage = ({ error, signInStart, resetError }) => {
 
   const { email, password } = userCredentials;
 
+  const { from } = location.state || { from: { pathname: "/" } };
+
   const handleSubmit = async event => {
     event.preventDefault();
     setIsLoading(true);
-    signInStart(email, password);
+    signInStart(email, password, from);
   };
 
   const handleChange = event => {
@@ -106,7 +108,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  signInStart: (email, password) => dispatch(signInStart({ email, password })),
+  signInStart: (email, password, from) =>
+    dispatch(signInStart({ email, password, from })),
   resetError: () => dispatch(resetError())
 });
 

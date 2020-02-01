@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
+import AdminRoute from "./components/routes/admin-route.component";
 import Header from "./components/header/header.component";
 import Spinner from "./components/spinner/spinner.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
@@ -14,6 +15,7 @@ const LoginPage = lazy(() => import("./pages/login/loginpage.component"));
 const RegisterPage = lazy(() =>
   import("./pages/register/registerpage.component")
 );
+const AdminPage = lazy(() => import("./pages/admin/adminpage.component"));
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -28,7 +30,9 @@ const App = ({ checkUserSession, currentUser }) => {
           <Route
             exact
             path="/login"
-            render={() => (currentUser ? <Redirect to="/" /> : <LoginPage />)}
+            render={props =>
+              currentUser ? <Redirect to="/" /> : <LoginPage {...props} />
+            }
           />
           <Route
             exact
@@ -37,6 +41,7 @@ const App = ({ checkUserSession, currentUser }) => {
               currentUser ? <Redirect to="/" /> : <RegisterPage />
             }
           />
+          <AdminRoute path="/admin" component={AdminPage} />
         </Switch>
       </Suspense>
     </div>
