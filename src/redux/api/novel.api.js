@@ -7,6 +7,13 @@ export const getGenresApi = () => {
   });
 };
 
+export const getNovelsApi = () => {
+  return axios({
+    url: "/lightnovels",
+    method: "get"
+  });
+};
+
 export const createNovelApi = (token, novel) => {
   return axios({
     url: "/lightnovels",

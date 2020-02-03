@@ -14,6 +14,20 @@ export const getGenresFailure = error => ({
   payload: error
 });
 
+export const getNovelsStart = () => ({
+  type: NovelActionTypes.GET_NOVELS_START
+});
+
+export const getNovelsSuccess = novels => ({
+  type: NovelActionTypes.GET_NOVELS_SUCCESS,
+  payload: novels
+});
+
+export const getNovelsFailure = error => ({
+  type: NovelActionTypes.GET_NOVELS_FAILURE,
+  payload: error
+});
+
 export const createNovelStart = tokenAndNovel => ({
   type: NovelActionTypes.CREATE_NOVEL_START,
   payload: tokenAndNovel
