@@ -22,6 +22,11 @@ export const selectIsGenresLoading = createSelector(
   novel => novel.isGenresLoading
 );
 
+export const selectIsNovelLoading = createSelector(
+  [selectNovel],
+  novel => novel.isNovelLoading
+);
+
 export const selectIsNovelsLoading = createSelector(
   [selectNovel],
   novel => novel.isNovelsLoading

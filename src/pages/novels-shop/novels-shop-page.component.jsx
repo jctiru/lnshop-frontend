@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -9,7 +9,7 @@ import GenresContainer from "../../components/genres/genres.container";
 import NovelsContainer from "../../components/novels/novels.container";
 
 const NovelsShopPage = ({ getGenresStart, getNovelsStart }) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     getGenresStart();
     getNovelsStart();
   }, [getGenresStart, getNovelsStart]);

@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   novel: null,
   novels: [],
   genres: [],
+  isNovelLoading: false,
   isNovelsLoading: false,
   isGenresLoading: false,
   isCreateNovelLoading: false,
@@ -53,6 +54,27 @@ const novelReducer = (state = INITIAL_STATE, action) => {
         ...state,
         novels: [],
         isNovelsLoading: false,
+        error: action.payload
+      };
+    case NovelActionTypes.GET_NOVEL_START:
+      return {
+        ...state,
+        novel: null,
+        isNovelLoading: true,
+        error: null
+      };
+    case NovelActionTypes.GET_NOVEL_SUCCESS:
+      return {
+        ...state,
+        novel: action.payload,
+        isNovelLoading: false,
+        error: null
+      };
+    case NovelActionTypes.GET_NOVEL_FAILURE:
+      return {
+        ...state,
+        novel: null,
+        isNovelLoading: false,
         error: action.payload
       };
     case NovelActionTypes.CREATE_NOVEL_START:

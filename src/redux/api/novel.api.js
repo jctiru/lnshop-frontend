@@ -14,6 +14,13 @@ export const getNovelsApi = () => {
   });
 };
 
+export const getNovelApi = novelId => {
+  return axios({
+    url: `/lightnovels/${novelId}`,
+    method: "get"
+  });
+};
+
 export const createNovelApi = (token, novel) => {
   return axios({
     url: "/lightnovels",

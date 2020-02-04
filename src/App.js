@@ -19,6 +19,7 @@ const AdminPage = lazy(() => import("./pages/admin/adminpage.component"));
 const NovelsShopPage = lazy(() =>
   import("./pages/novels-shop/novels-shop-page.component")
 );
+const NovelPage = lazy(() => import("./pages/novel/novel-page.component"));
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -44,7 +45,8 @@ const App = ({ checkUserSession, currentUser }) => {
               currentUser ? <Redirect to="/" /> : <RegisterPage />
             }
           />
-          <Route path="/novels" component={NovelsShopPage} />
+          <Route exact path="/novels" component={NovelsShopPage} />
+          <Route exact path="/novels/show/:novelId" component={NovelPage} />
           <AdminRoute path="/admin" component={AdminPage} />
         </Switch>
       </Suspense>

@@ -28,6 +28,21 @@ export const getNovelsFailure = error => ({
   payload: error
 });
 
+export const getNovelStart = novelId => ({
+  type: NovelActionTypes.GET_NOVEL_START,
+  payload: novelId
+});
+
+export const getNovelSuccess = novel => ({
+  type: NovelActionTypes.GET_NOVEL_SUCCESS,
+  payload: novel
+});
+
+export const getNovelFailure = error => ({
+  type: NovelActionTypes.GET_NOVEL_FAILURE,
+  payload: error
+});
+
 export const createNovelStart = tokenAndNovel => ({
   type: NovelActionTypes.CREATE_NOVEL_START,
   payload: tokenAndNovel

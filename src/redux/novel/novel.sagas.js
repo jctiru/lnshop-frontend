@@ -6,12 +6,28 @@ import {
   getGenresFailure,
   getNovelsSuccess,
   getNovelsFailure,
+  getNovelSuccess,
+  getNovelFailure,
   createNovelSuccess,
   createNovelFailure
 } from "./novel.actions";
-import { getGenresApi, getNovelsApi, createNovelApi } from "../api/novel.api";
+import {
+  getGenresApi,
+  getNovelsApi,
+  getNovelApi,
+  createNovelApi
+} from "../api/novel.api";
 
 const getToken = state => state.user.currentUser.token;
+
+function* getNovel({ payload: { novelId } }) {
+  try {
+    const { data } = yield call(getNovelApi, novelId);
+    yield put(getNovelSuccess(data));
+  } catch (error) {
+    yield put(getNovelFailure(error.response.data));
+  }
+}
 
 function* getGenres() {
   try {
@@ -49,6 +65,10 @@ function* onGetNovelsStart() {
   yield takeLatest(NovelActionTypes.GET_NOVELS_START, getNovels);
 }
 
+function* onGetNovelStart() {
+  yield takeLatest(NovelActionTypes.GET_NOVEL_START, getNovel);
+}
+
 function* onCreateNovelStart() {
   yield takeLatest(NovelActionTypes.CREATE_NOVEL_START, createNovel);
 }
@@ -57,6 +77,7 @@ export function* novelSagas() {
   yield all([
     call(onGetGenresStart),
     call(onGetNovelsStart),
+    call(onGetNovelStart),
     call(onCreateNovelStart)
   ]);
 }
