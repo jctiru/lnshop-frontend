@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import LoadingOverlay from "react-loading-overlay";
+import moment from "moment";
 
 import {
   selectGenres,
@@ -122,12 +123,17 @@ const CreateNovel = ({
         <div className="col-md-12 mx-auto">
           <LoadingOverlay active={isCreateNovelLoading} spinner={<Spinner />}>
             {isCreateNovelSuccess ? (
-              <div className="alert alert-dismissible alert-success fade show">
-                <button type="button" className="close" data-dismiss="alert">
-                  &times;
-                </button>
-                Novel successfully created! Created time:{" "}
-                {isCreateNovelSuccess.createDateTime}.
+              <div>
+                <div className="alert alert-dismissible alert-success fade show">
+                  <button type="button" className="close" data-dismiss="alert">
+                    &times;
+                  </button>
+                  Novel successfully created! Created time:{" "}
+                  {moment(isCreateNovelSuccess.createDateTime).format(
+                    "MMMM Do YYYY, h:mm:ss a"
+                  )}
+                  .
+                </div>
               </div>
             ) : null}
             <div className="card card-body bg-light mt-2 mb-5">

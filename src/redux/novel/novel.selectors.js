@@ -9,7 +9,12 @@ export const selectGenres = createSelector(
 
 export const selectNovels = createSelector(
   [selectNovel],
-  novel => novel.novels
+  novel => novel.novels.lightNovels
+);
+
+export const selectTotalPages = createSelector(
+  [selectNovel],
+  novel => novel.novels.totalPages
 );
 
 export const selectLightNovel = createSelector(
@@ -30,6 +35,11 @@ export const selectIsNovelLoading = createSelector(
 export const selectIsNovelsLoading = createSelector(
   [selectNovel],
   novel => novel.isNovelsLoading
+);
+
+export const selectAreInitialNovelsLoaded = createSelector(
+  [selectNovel],
+  novel => !!novel.novels.lightNovels.length
 );
 
 export const selectIsCreateNovelLoading = createSelector(

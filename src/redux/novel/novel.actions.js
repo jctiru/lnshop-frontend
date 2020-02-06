@@ -14,8 +14,9 @@ export const getGenresFailure = error => ({
   payload: error
 });
 
-export const getNovelsStart = () => ({
-  type: NovelActionTypes.GET_NOVELS_START
+export const getNovelsStart = searchQueryAndGenresQueryAndPage => ({
+  type: NovelActionTypes.GET_NOVELS_START,
+  payload: searchQueryAndGenresQueryAndPage
 });
 
 export const getNovelsSuccess = novels => ({

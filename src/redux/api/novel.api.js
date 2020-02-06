@@ -7,9 +7,9 @@ export const getGenresApi = () => {
   });
 };
 
-export const getNovelsApi = () => {
+export const getNovelsApi = page => {
   return axios({
-    url: "/lightnovels",
+    url: `/lightnovels?page=${page}`,
     method: "get"
   });
 };

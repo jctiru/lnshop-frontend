@@ -2,7 +2,7 @@ import { NovelActionTypes } from "./novel.types";
 
 const INITIAL_STATE = {
   novel: null,
-  novels: [],
+  novels: { totalPages: 0, lightNovels: [] },
   genres: [],
   isNovelLoading: false,
   isNovelsLoading: false,
@@ -38,7 +38,6 @@ const novelReducer = (state = INITIAL_STATE, action) => {
     case NovelActionTypes.GET_NOVELS_START:
       return {
         ...state,
-        novels: [],
         isNovelsLoading: true,
         error: null
       };
@@ -52,7 +51,7 @@ const novelReducer = (state = INITIAL_STATE, action) => {
     case NovelActionTypes.GET_NOVELS_FAILURE:
       return {
         ...state,
-        novels: [],
+        novels: { totalPages: 0, lightNovels: [] },
         isNovelsLoading: false,
         error: action.payload
       };

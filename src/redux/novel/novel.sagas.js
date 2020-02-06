@@ -38,9 +38,9 @@ function* getGenres() {
   }
 }
 
-function* getNovels() {
+function* getNovels({ payload: { page } }) {
   try {
-    const { data } = yield call(getNovelsApi);
+    const { data } = yield call(getNovelsApi, page);
     yield put(getNovelsSuccess(data));
   } catch (error) {
     yield put(getNovelsFailure(error.response.data));
