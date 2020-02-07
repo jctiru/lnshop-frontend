@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import queryString from "query-string";
@@ -25,49 +25,111 @@ const NovelsShopPage = ({
   location,
   history
 }) => {
-  //const [page, setPage] = useState(1)
-  const page = useRef(4);
+  const [checkedItems, setCheckedItems] = useState({});
+  const checkedItemsGenreNames = useRef([]);
+  const page = useRef(1);
   const search = useRef(null);
-  const genres = useRef(genresList);
+  const queryStringObj = useRef({});
+  const initialRender = useRef(true);
+  const initialCheckedItems = useRef(false);
 
-  useLayoutEffect(() => {
-    if (Array.isArray(genres.current) && genres.current.length === 0) {
+  console.log("RENDERED!!!!!!!!!!!!!!!!!");
+
+  useEffect(() => {
+    if (initialRender.current && genresList.length === 0) {
       getGenresStart();
     }
-  }, [getGenresStart]);
+  }, [genresList.length, getGenresStart]);
 
-  useLayoutEffect(() => {
-    const queryA = queryString.parse(location.search);
+  useEffect(() => {
+    if (initialRender.current) {
+      return;
+    }
+
+    // { Action: {name: "Action", genreId: "XXXXXXX"}, ...}
+    const genresObj = genresList.reduce((acc, cv) => {
+      acc[cv.name] = { name: cv.name, genreId: cv.genreId };
+      return acc;
+    }, {});
+
+    // queryStringObj.current.genres = { genres: ["Action", "Drama", ...], ...}
+    if (typeof queryStringObj.current.genres !== "undefined") {
+      const checkedItemsObj = {};
+
+      queryStringObj.current.genres.forEach(genre => {
+        if (typeof genresObj[genre] !== "undefined") {
+          checkedItemsObj[genresObj[genre].genreId] = {
+            isChecked: true,
+            name: genre,
+            genreId: genresObj[genre].genreId
+          };
+        }
+      });
+
+      initialCheckedItems.current = true;
+      setCheckedItems(checkedItemsObj);
+    }
+  }, [genresList]);
+
+  useEffect(() => {
+    queryStringObj.current = queryString.parse(location.search);
 
     if (
-      typeof queryA.page !== "undefined" &&
-      /^\d+$/.test(queryA.page) &&
-      parseInt(queryA.page) > 0
+      typeof queryStringObj.current.page !== "undefined" &&
+      /^\d+$/.test(queryStringObj.current.page) &&
+      parseInt(queryStringObj.current.page) > 0
     ) {
-      page.current = queryA.page;
+      page.current = queryStringObj.current.page;
     }
-  }, [location.search]);
 
-  useLayoutEffect(() => {
-    getNovelsStart(page.current);
-  }, [getNovelsStart]);
+    if (typeof queryStringObj.current.genres === "string") {
+      queryStringObj.current.genres = [queryStringObj.current.genres];
+    }
+
+    getNovelsStart(location.search);
+  }, [getNovelsStart, location.search]);
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
+
+    if (initialCheckedItems.current) {
+      initialCheckedItems.current = false;
+      return;
+    }
+
+    page.current = 1;
+    checkedItemsGenreNames.current = Object.values(checkedItems)
+      .filter(item => item.isChecked)
+      .map(item => item.name);
+    const querySearch = queryString.stringify(
+      { genres: checkedItemsGenreNames.current },
+      { skipNull: true }
+    );
+    history.push(location.pathname + "?" + querySearch);
+  }, [checkedItems, history, location.pathname]);
 
   const handlePageClick = data => {
     page.current = data.selected + 1;
     const querySearch = queryString.stringify(
-      { page: page.current },
+      { page: page.current, genres: checkedItemsGenreNames.current },
       { skipNull: true }
     );
     history.push(location.pathname + "?" + querySearch);
-    getNovelsStart(page.current);
   };
+
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-3">
-          <GenresContainer />
+        <div className="col-md-2">
+          <GenresContainer
+            checkedItems={checkedItems}
+            setCheckedItems={setCheckedItems}
+          />
         </div>
-        <div className="col-md-9">
+        <div className="col-md-10">
           <NovelsContainer />
           <div className="container my-5">
             <div className="row">
@@ -110,7 +172,11 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   getGenresStart: () => dispatch(getGenresStart()),
-  getNovelsStart: page => dispatch(getNovelsStart({ page }))
+  getNovelsStart: urlParam => dispatch(getNovelsStart({ urlParam }))
 });
+
+NovelsShopPage.whyDidYouRender = {
+  //logOnDifferentValues: true
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NovelsShopPage);

@@ -17,7 +17,6 @@ const novelReducer = (state = INITIAL_STATE, action) => {
     case NovelActionTypes.GET_GENRES_START:
       return {
         ...state,
-        genres: [],
         isGenresLoading: true,
         error: null
       };

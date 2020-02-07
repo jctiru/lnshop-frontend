@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import { selectGenres } from "../../redux/novel/novel.selectors";
 
-const Genres = ({ genresList }) => {
-  const [checkedItems, setCheckedItems] = useState({});
-
+const Genres = ({ genresList, checkedItems, setCheckedItems }) => {
   const handleToggle = event => {
     setCheckedItems({
       ...checkedItems,
-      [event.target.name]: event.target.checked
+      [event.target.name]: {
+        isChecked: event.target.checked,
+        name: event.target.value,
+        genreId: event.target.name
+      }
     });
   };
 
@@ -19,17 +21,22 @@ const Genres = ({ genresList }) => {
       <div className="mb-1">Genres:</div>
       {genresList.map(genre => (
         <div
-          className="custom-control custom-checkbox col-md-6"
+          className="custom-control custom-checkbox"
           key={genre.genreId}
         >
           <input
             className={`custom-control-input`}
             type="checkbox"
             onChange={handleToggle}
-            value={genre.genreId}
+            value={genre.name}
             name={genre.genreId}
             id={genre.genreId}
-            checked={!!checkedItems[genre.genreId]}
+            //checked={!!checkedItems[genre.genreId].isChecked}
+            checked={
+              typeof checkedItems[genre.genreId] === "undefined"
+                ? false
+                : checkedItems[genre.genreId].isChecked
+            }
           />
           <label className="custom-control-label" htmlFor={genre.genreId}>
             {genre.name}

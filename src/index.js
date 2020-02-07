@@ -8,6 +8,16 @@ import { store, persistor, history } from "./redux/store";
 import "./index.css";
 import App from "./App";
 
+if (process.env.NODE_ENV === "development") {
+  const whyDidYouRender = require("@welldone-software/why-did-you-render");
+  whyDidYouRender(React, {
+    trackAllPureComponent: true,
+    titleColor: "aqua",
+    diffNameColor: "aqua",
+    diffPathColor: "aqua"
+  });
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

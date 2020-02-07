@@ -12,11 +12,11 @@ const NovelCard = ({ novel }) => (
         />
       </Link>
       <div className="card-body">
-        <h4 className="card-title">
+        <h5 className="card-title">
           <strong>
             <Link to={`novels/show/${novel.lightNovelId}`}>{novel.title}</Link>
           </strong>
-        </h4>
+        </h5>
         <h6 className="card-subtitle mb-3 text-muted">
           {novel.genres.map(genre => genre.name + " ")}
         </h6>
