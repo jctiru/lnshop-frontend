@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import { selectCurrentUser } from "../../redux/user/user.selectors";
+import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
 import { signOutStart } from "../../redux/user/user.actions";
 
 import "./header.styles.scss";
 
-const Header = ({ currentUser, signOutStart }) => (
+const Header = ({ currentUser, cartItemsCount, signOutStart }) => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
     <div className="container">
       <Link className="navbar-brand" to="/">
@@ -48,7 +49,8 @@ const Header = ({ currentUser, signOutStart }) => (
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
             <Link className="nav-link" to="/cart">
-              Cart
+              <i className="fa fa-shopping-cart fa-lg"></i>
+              {cartItemsCount} Cart
             </Link>
           </li>
           {currentUser ? (
@@ -96,7 +98,8 @@ const Header = ({ currentUser, signOutStart }) => (
 );
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  cartItemsCount: selectCartItemsCount
 });
 
 const mapDispatchToProps = dispatch => ({

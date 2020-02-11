@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import { selectLightNovel } from "../../redux/novel/novel.selectors";
+import { addItem } from "../../redux/cart/cart.actions";
 
-const Novel = ({ novel }) => {
+const Novel = ({ novel, addItem }) => {
   const history = useHistory();
 
   return (
@@ -43,7 +44,10 @@ const Novel = ({ novel }) => {
                 <h4 className="card-title mb-0 text-dark">
                   Price: ${novel ? novel.price : ""}
                 </h4>
-                <button className="btn btn-sm btn-dark mt-2">
+                <button
+                  className="btn btn-sm btn-dark mt-2"
+                  onClick={() => addItem(novel)}
+                >
                   Add to Cart
                 </button>
               </div>
@@ -60,4 +64,8 @@ const mapStateToProps = createStructuredSelector({
   novel: selectLightNovel
 });
 
-export default connect(mapStateToProps)(Novel);
+const mapDispatchToProps = dispatch => ({
+  addItem: item => dispatch(addItem(item))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Novel);

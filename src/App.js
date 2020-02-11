@@ -20,6 +20,7 @@ const NovelsShopPage = lazy(() =>
   import("./pages/novels-shop/novels-shop-page.component")
 );
 const NovelPage = lazy(() => import("./pages/novel/novel-page.component"));
+const CartPage = lazy(() => import("./pages/cart/cart-page.component"));
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -31,6 +32,7 @@ const App = ({ checkUserSession, currentUser }) => {
       <Header />
       <Suspense fallback={<Spinner />}>
         <Switch>
+          <Route exaxt path="/cart" component={CartPage} />
           <Route
             exact
             path="/login"
