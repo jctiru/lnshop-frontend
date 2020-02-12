@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const NovelCard = ({ novel }) => (
   <div className="col-lg-3 col-md-6 col-12 mt-3 mb-3 d-flex">
@@ -21,7 +22,10 @@ const NovelCard = ({ novel }) => (
           {novel.genres.map(genre => genre.name + " ")}
         </h6>
       </div>
-      <div className="card-footer text-dark">Price: {novel.price}</div>
+      <div className="card-footer text-dark">
+        Added: {moment(novel.createDateTime).format("MMM Do YYYY")}
+      </div>
+      <div className="card-footer text-dark">Price: ${novel.price}</div>
     </div>
   </div>
 );
