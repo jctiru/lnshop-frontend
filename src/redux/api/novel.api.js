@@ -9,7 +9,7 @@ export const getGenresApi = () => {
 
 export const getNovelsApi = urlParams => {
   return axios({
-    url: `/lightnovels${urlParams}`,
+    url: `/lightnovels${urlParams ? urlParams : ""}`,
     method: "get"
   });
 };

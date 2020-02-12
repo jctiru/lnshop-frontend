@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { getNovelsStart } from "../../redux/novel/novel.actions";
+import NovelsContainer from "../../components/novels/novels.container";
 
 import "./home-page.styles.scss";
 
-const HomePage = () => {
+const HomePage = ({ getNovelsStart }) => {
+  useEffect(() => {
+    getNovelsStart(null);
+  });
+
   return (
     <>
       {/* Jumbotron */}
@@ -70,8 +78,26 @@ const HomePage = () => {
           </p>
         </div>
       </div>
+
+      {/* Latest Novels Section */}
+      <hr style={{ margin: "0 5%", borderColor: "inherit" }} className="mb-5" />
+      <div className="container mb-5">
+        <div className="row">
+          <div className="col-12 text-center">
+            <h2 className="text-dark">Latest Light Novels</h2>
+          </div>
+        </div>
+        <div className="row">
+          <NovelsContainer />
+        </div>
+      </div>
+      <hr style={{ margin: "0 5%", borderColor: "inherit" }} className="mb-5" />
     </>
   );
 };
 
-export default HomePage;
+const mapDispatchToProps = dispatch => ({
+  getNovelsStart: urlParam => dispatch(getNovelsStart({ urlParam }))
+});
+
+export default connect(null, mapDispatchToProps)(HomePage);
