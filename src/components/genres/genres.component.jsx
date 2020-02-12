@@ -18,12 +18,11 @@ const Genres = ({ genresList, checkedItems, setCheckedItems }) => {
 
   return (
     <div className="form-group">
-      <div className="mb-1">Genres:</div>
+      <h5 className="mb-1">
+        <strong>Genres:</strong>
+      </h5>
       {genresList.map(genre => (
-        <div
-          className="custom-control custom-checkbox"
-          key={genre.genreId}
-        >
+        <div className="custom-control custom-switch" key={genre.genreId}>
           <input
             className={`custom-control-input`}
             type="checkbox"
