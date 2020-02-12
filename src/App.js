@@ -5,6 +5,7 @@ import { createStructuredSelector } from "reselect";
 
 import AdminRoute from "./components/routes/admin-route.component";
 import Header from "./components/header/header.component";
+import Footer from "./components/footer/footer.component";
 import Spinner from "./components/spinner/spinner.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
@@ -54,6 +55,7 @@ const App = ({ checkUserSession, currentUser }) => {
           <AdminRoute path="/admin" component={AdminPage} />
         </Switch>
       </Suspense>
+      <Footer />
     </div>
   );
 };
