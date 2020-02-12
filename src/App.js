@@ -11,6 +11,7 @@ import { checkUserSession } from "./redux/user/user.actions";
 
 import "./App.css";
 
+const HomePage = lazy(() => import("./pages/home/home-page.component"));
 const LoginPage = lazy(() => import("./pages/login/loginpage.component"));
 const RegisterPage = lazy(() =>
   import("./pages/register/registerpage.component")
@@ -32,7 +33,8 @@ const App = ({ checkUserSession, currentUser }) => {
       <Header />
       <Suspense fallback={<Spinner />}>
         <Switch>
-          <Route exaxt path="/cart" component={CartPage} />
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/cart" component={CartPage} />
           <Route
             exact
             path="/login"
