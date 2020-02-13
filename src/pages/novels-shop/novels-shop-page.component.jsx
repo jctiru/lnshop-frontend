@@ -12,6 +12,7 @@ import {
   selectGenres,
   selectTotalPages
 } from "../../redux/novel/novel.selectors";
+import Search from "../../components/search/search.component";
 import GenresContainer from "../../components/genres/genres.container";
 import NovelsContainer from "../../components/novels/novels.container";
 
@@ -33,27 +34,26 @@ const NovelsShopPage = ({
   const initialRender = useRef(true);
   const initialCheckedItems = useRef(false);
 
-  console.log("RENDERED!!!!!!!!!!!!!!!!!");
-
+  // Fetch genres only once
   useEffect(() => {
     if (initialRender.current && genresList.length === 0) {
       getGenresStart();
     }
   }, [genresList.length, getGenresStart]);
 
+  // After fetching genres, set genres checkboxes if present in URL Params
   useEffect(() => {
     if (initialRender.current) {
       return;
     }
 
-    // { Action: {name: "Action", genreId: "XXXXXXX"}, ...}
-    const genresObj = genresList.reduce((acc, cv) => {
-      acc[cv.name] = { name: cv.name, genreId: cv.genreId };
-      return acc;
-    }, {});
-
-    // queryStringObj.current.genres = { genres: ["Action", "Drama", ...], ...}
+    // queryStringObj.current.genres = { genres: ["Action", "Drama", ...]}
     if (typeof queryStringObj.current.genres !== "undefined") {
+      // { Action: {name: "Action", genreId: "XXXXXXX"}, ...}
+      const genresObj = genresList.reduce((acc, cv) => {
+        acc[cv.name] = { name: cv.name, genreId: cv.genreId };
+        return acc;
+      }, {});
       const checkedItemsObj = {};
 
       queryStringObj.current.genres.forEach(genre => {
@@ -71,6 +71,7 @@ const NovelsShopPage = ({
     }
   }, [genresList]);
 
+  //On initial render and every URL change, fetch novels based on URL Params and save URL Params for processing
   useEffect(() => {
     queryStringObj.current = queryString.parse(location.search);
 
@@ -86,26 +87,34 @@ const NovelsShopPage = ({
       queryStringObj.current.genres = [queryStringObj.current.genres];
     }
 
+    if (typeof queryStringObj.current.search !== "undefined") {
+      search.current.value = queryStringObj.current.search;
+    }
+
     getNovelsStart(location.search);
   }, [getNovelsStart, location.search]);
 
+  // On checkboxes change except from initial change due to initial URL Params, change URL
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
       return;
     }
 
+    checkedItemsGenreNames.current = Object.values(checkedItems)
+      .filter(item => item.isChecked)
+      .map(item => item.name);
+
+    // Don't change URL on initial checkboxes change due to initial URL Params
     if (initialCheckedItems.current) {
       initialCheckedItems.current = false;
       return;
     }
 
     page.current = 1;
-    checkedItemsGenreNames.current = Object.values(checkedItems)
-      .filter(item => item.isChecked)
-      .map(item => item.name);
+    const searchValue = processSearchValue(search.current.value);
     const querySearch = queryString.stringify(
-      { genres: checkedItemsGenreNames.current },
+      { genres: checkedItemsGenreNames.current, search: searchValue },
       { skipNull: true }
     );
     history.push(location.pathname + "?" + querySearch);
@@ -113,55 +122,94 @@ const NovelsShopPage = ({
 
   const handlePageClick = data => {
     page.current = data.selected + 1;
+    const searchValue = processSearchValue(search.current.value);
     const querySearch = queryString.stringify(
-      { page: page.current, genres: checkedItemsGenreNames.current },
+      {
+        page: page.current,
+        genres: checkedItemsGenreNames.current,
+        search: searchValue
+      },
       { skipNull: true }
     );
     history.push(location.pathname + "?" + querySearch);
   };
 
+  const handleSearchCLick = () => {
+    page.current = 1;
+    const searchValue = processSearchValue(search.current.value);
+    const querySearch = queryString.stringify(
+      {
+        genres: checkedItemsGenreNames.current,
+        search: searchValue
+      },
+      { skipNull: true }
+    );
+    history.push(location.pathname + "?" + querySearch);
+  };
+
+  const processSearchValue = searchValue => {
+    if (searchValue.trim() === "") {
+      return null;
+    } else {
+      return searchValue;
+    }
+  };
+
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-2">
-          <GenresContainer
-            checkedItems={checkedItems}
-            setCheckedItems={setCheckedItems}
-          />
+    <>
+      {/* Jumbotron */}
+      <div className="container">
+        <div
+          id="books-index-jumbotron"
+          className="jumbotron text-center py-4 mb-3"
+        >
+          <h1 className="text-white jumbotron-text-shadow">Light Novels</h1>
         </div>
-        <div className="col-md-10">
-          <NovelsContainer />
-          <div className="container my-5">
-            <div className="row">
-              <div className="col-md-12">
-                <ReactPaginate
-                  pageCount={totalPages}
-                  marginPagesDisplayed={3}
-                  pageRangeDisplayed={3}
-                  forcePage={parseInt(page.current) - 1}
-                  onPageChange={handlePageClick}
-                  disableInitialCallback={true}
-                  containerClassName={"pagination justify-content-center"}
-                  subContainerClassName={"pages pagination"}
-                  previousLabel="&lsaquo;"
-                  nextLabel="&rsaquo;"
-                  breakLabel={"..."}
-                  breakClassName={"page-item"}
-                  breakLinkClassName={"page-link"}
-                  previousClassName={"page-item"}
-                  previousLinkClassName={"page-link"}
-                  nextClassName={"page-item"}
-                  nextLinkClassName={"page-link"}
-                  pageClassName={"page-item"}
-                  pageLinkClassName={"page-link"}
-                  activeClassName={"active"}
-                />
+      </div>
+
+      <div className="container">
+        <Search search={search} handleSearchClick={handleSearchCLick} />
+        <div className="row">
+          <div className="col-md-2">
+            <GenresContainer
+              checkedItems={checkedItems}
+              setCheckedItems={setCheckedItems}
+            />
+          </div>
+          <div className="col-md-10">
+            <NovelsContainer />
+            <div className="container my-5">
+              <div className="row">
+                <div className="col-md-12">
+                  <ReactPaginate
+                    pageCount={totalPages}
+                    marginPagesDisplayed={3}
+                    pageRangeDisplayed={3}
+                    forcePage={parseInt(page.current) - 1}
+                    onPageChange={handlePageClick}
+                    disableInitialCallback={true}
+                    containerClassName={"pagination justify-content-center"}
+                    subContainerClassName={"pages pagination"}
+                    previousLabel="&lsaquo;"
+                    nextLabel="&rsaquo;"
+                    breakLabel={"..."}
+                    breakClassName={"page-item"}
+                    breakLinkClassName={"page-link"}
+                    previousClassName={"page-item"}
+                    previousLinkClassName={"page-link"}
+                    nextClassName={"page-item"}
+                    nextLinkClassName={"page-link"}
+                    pageClassName={"page-item"}
+                    pageLinkClassName={"page-link"}
+                    activeClassName={"active"}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
