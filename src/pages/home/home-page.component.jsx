@@ -1,16 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import queryString from "query-string";
 
 import { getNovelsStart } from "../../redux/novel/novel.actions";
+import Search from "../../components/search/search.component";
 import NovelsContainer from "../../components/novels/novels.container";
 
 import "./home-page.styles.scss";
 
-const HomePage = ({ getNovelsStart }) => {
+const HomePage = ({ getNovelsStart, history }) => {
+  const search = useRef(null);
+
   useEffect(() => {
     getNovelsStart(null);
   });
+
+  const handleSearchCLick = () => {
+    const searchValue = processSearchValue(search.current.value);
+    const querySearch = queryString.stringify(
+      { search: searchValue },
+      { skipNull: true }
+    );
+    history.push("/novels?" + querySearch);
+  };
+
+  const processSearchValue = searchValue => {
+    if (searchValue.trim() === "") {
+      return null;
+    } else {
+      return searchValue;
+    }
+  };
 
   return (
     <>
@@ -27,6 +48,11 @@ const HomePage = ({ getNovelsStart }) => {
             <p className="lead text-light">Go buy your favorite Light Novels</p>
           </div>
         </div>
+      </div>
+
+      {/* Searchbar */}
+      <div className="container mb-5">
+        <Search search={search} handleSearchClick={handleSearchCLick} />
       </div>
 
       {/* Featuring */}
