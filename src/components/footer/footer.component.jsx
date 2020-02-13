@@ -67,7 +67,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i className="fa fa-facebook fa-lg white-text mr-md-4"> </i>
+                <i className="fa fa-facebook fa-lg white-text mr-4"> </i>
               </a>
               {/* Linkedin */}
               <a
@@ -76,7 +76,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i className="fa fa-linkedin fa-lg white-text mx-md-4"> </i>
+                <i className="fa fa-linkedin fa-lg white-text mx-4"> </i>
               </a>
               {/* Github */}
               <a
@@ -85,7 +85,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i className="fa fa-github fa-lg white-text mx-md-4"> </i>
+                <i className="fa fa-github fa-lg white-text mx-4"> </i>
               </a>
             </div>
           </div>
