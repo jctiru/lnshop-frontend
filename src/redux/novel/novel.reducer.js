@@ -9,6 +9,8 @@ const INITIAL_STATE = {
   isGenresLoading: false,
   isCreateNovelLoading: false,
   isCreateNovelSuccess: false,
+  isUpdateNovelLoading: false,
+  isUpdateNovelSuccess: false,
   error: null
 };
 
@@ -95,6 +97,34 @@ const novelReducer = (state = INITIAL_STATE, action) => {
         isCreateNovelLoading: false,
         isCreateNovelSuccess: false,
         error: action.payload
+      };
+    case NovelActionTypes.UPDATE_NOVEL_START:
+      return {
+        ...state,
+        isUpdateNovelLoading: true,
+        isUpdateNovelSuccess: false,
+        error: null
+      };
+    case NovelActionTypes.UPDATE_NOVEL_SUCCESS:
+      return {
+        ...state,
+        isUpdateNovelLoading: false,
+        isUpdateNovelSuccess: action.payload,
+        error: null
+      };
+    case NovelActionTypes.UPDATE_NOVEL_FAILURE:
+      return {
+        ...state,
+        isUpdateNovelLoading: false,
+        isUpdateNovelSuccess: false,
+        error: action.payload
+      };
+    case NovelActionTypes.CRUD_NOVEL_STATUS_RESET:
+      return {
+        ...state,
+        isCreateNovelSuccess: false,
+        isUpdateNovelSuccess: false,
+        error: null
       };
     default:
       return state;

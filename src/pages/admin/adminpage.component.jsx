@@ -12,6 +12,9 @@ const CreateNovelPage = lazy(() =>
 const ManageNovelsPage = lazy(() =>
   import("../manage-novels/manage-novels.component")
 );
+const UpdateNovelPage = lazy(() =>
+  import("../update-novel/update-novel-page.component")
+);
 
 const AdminPage = ({ match }) => {
   return (
@@ -31,6 +34,11 @@ const AdminPage = ({ match }) => {
               exact
               path={`${match.path}/manage-novels`}
               component={ManageNovelsPage}
+            />
+            <Route
+              exact
+              path={`${match.path}/manage-novels/:novelId`}
+              component={UpdateNovelPage}
             />
           </Suspense>
         </div>

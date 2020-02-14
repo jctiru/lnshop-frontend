@@ -44,9 +44,9 @@ export const getNovelFailure = error => ({
   payload: error
 });
 
-export const createNovelStart = tokenAndNovel => ({
+export const createNovelStart = novel => ({
   type: NovelActionTypes.CREATE_NOVEL_START,
-  payload: tokenAndNovel
+  payload: novel
 });
 
 export const createNovelSuccess = novel => ({
@@ -57,4 +57,23 @@ export const createNovelSuccess = novel => ({
 export const createNovelFailure = error => ({
   type: NovelActionTypes.CREATE_NOVEL_FAILURE,
   payload: error
+});
+
+export const updateNovelStart = NovelIdAndNovel => ({
+  type: NovelActionTypes.UPDATE_NOVEL_START,
+  payload: NovelIdAndNovel
+});
+
+export const updateNovelSuccess = novel => ({
+  type: NovelActionTypes.UPDATE_NOVEL_SUCCESS,
+  payload: novel
+});
+
+export const updateNovelFailure = error => ({
+  type: NovelActionTypes.UPDATE_NOVEL_FAILURE,
+  payload: error
+});
+
+export const crudNovelStatusReset = () => ({
+  type: NovelActionTypes.CRUD_NOVEL_STATUS_RESET
 });

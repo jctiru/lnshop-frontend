@@ -32,3 +32,15 @@ export const createNovelApi = (token, novel) => {
     }
   });
 };
+
+export const updateNovelApi = (token, lightNovelId, novel) => {
+  return axios({
+    url: `/lightnovels/${lightNovelId}`,
+    method: "put",
+    data: novel,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
+    }
+  });
+};

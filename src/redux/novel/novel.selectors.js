@@ -52,4 +52,14 @@ export const selectIsCreateNovelSuccess = createSelector(
   novel => novel.isCreateNovelSuccess
 );
 
+export const selectIsUpdateNovelLoading = createSelector(
+  [selectNovel],
+  novel => novel.isUpdateNovelLoading
+);
+
+export const selectIsUpdateNovelSuccess = createSelector(
+  [selectNovel],
+  novel => novel.isUpdateNovelSuccess
+);
+
 export const selectError = createSelector([selectNovel], novel => novel.error);
