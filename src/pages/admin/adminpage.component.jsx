@@ -9,6 +9,9 @@ import "./adminpage.styles.scss";
 const CreateNovelPage = lazy(() =>
   import("../create-novel/create-novel-page.component")
 );
+const ManageNovelsPage = lazy(() =>
+  import("../manage-novels/manage-novels.component")
+);
 
 const AdminPage = ({ match }) => {
   return (
@@ -23,6 +26,11 @@ const AdminPage = ({ match }) => {
               exact
               path={`${match.path}/create-novel`}
               component={CreateNovelPage}
+            />
+            <Route
+              exact
+              path={`${match.path}/manage-novels`}
+              component={ManageNovelsPage}
             />
           </Suspense>
         </div>

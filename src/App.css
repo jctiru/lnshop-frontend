@@ -6,3 +6,7 @@
 .primary-jumbotron-text-shadow {
   text-shadow: 1.5px 1.5px 3px #000000;
 }
+
+.page-link {
+  cursor: pointer;
+}

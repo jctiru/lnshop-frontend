@@ -12,13 +12,13 @@ const AdminLinks = () => {
           </Link>
         </li>
         <li className="list-group-item">
-          <Link className="nav-link" to="/admin/orders">
-            View Orders
+          <Link className="nav-link" to="/admin/manage-novels">
+            Manage Novels
           </Link>
         </li>
         <li className="list-group-item">
-          <Link className="nav-link" to="/admin/products">
-            Manage Products
+          <Link className="nav-link" to="/admin/orders">
+            View Orders
           </Link>
         </li>
       </ul>
