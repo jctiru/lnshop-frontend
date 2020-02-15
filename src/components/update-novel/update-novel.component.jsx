@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import LoadingOverlay from "react-loading-overlay";
@@ -39,6 +40,7 @@ const UpdateNovel = ({
   const [checkedItems, setCheckedItems] = useState({});
   const [errors, setErrors] = useState({});
   const initialRender = useRef(true);
+  const history = useHistory();
 
   const {
     image,
@@ -165,6 +167,10 @@ const UpdateNovel = ({
 
   return (
     <div className="container">
+      <button onClick={() => history.goBack()} className="btn btn-light m-1">
+        <i className="fa fa-backward" /> Back
+      </button>
+      <br />
       <div className="row">
         <div className="col-md-12 mx-auto">
           <LoadingOverlay active={isCrudNovelLoading} spinner={<Spinner />}>
