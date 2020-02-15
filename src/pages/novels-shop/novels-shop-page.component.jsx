@@ -28,7 +28,7 @@ const NovelsShopPage = ({
 }) => {
   const [checkedItems, setCheckedItems] = useState({});
   const checkedItemsGenreNames = useRef([]);
-  const page = useRef(1);
+  const [page, setPage] = useState(1);
   const search = useRef(null);
   const queryStringObj = useRef({});
   const initialRender = useRef(true);
@@ -80,7 +80,9 @@ const NovelsShopPage = ({
       /^\d+$/.test(queryStringObj.current.page) &&
       parseInt(queryStringObj.current.page) > 0
     ) {
-      page.current = queryStringObj.current.page;
+      setPage(parseInt(queryStringObj.current.page));
+    } else {
+      setPage(1);
     }
 
     if (typeof queryStringObj.current.genres === "string") {
@@ -111,7 +113,6 @@ const NovelsShopPage = ({
       return;
     }
 
-    page.current = 1;
     const searchValue = processSearchValue(search.current.value);
     const querySearch = queryString.stringify(
       { genres: checkedItemsGenreNames.current, search: searchValue },
@@ -121,11 +122,10 @@ const NovelsShopPage = ({
   }, [checkedItems, history, location.pathname]);
 
   const handlePageClick = data => {
-    page.current = data.selected + 1;
     const searchValue = processSearchValue(search.current.value);
     const querySearch = queryString.stringify(
       {
-        page: page.current,
+        page: data.selected + 1,
         genres: checkedItemsGenreNames.current,
         search: searchValue
       },
@@ -135,7 +135,6 @@ const NovelsShopPage = ({
   };
 
   const handleSearchCLick = () => {
-    page.current = 1;
     const searchValue = processSearchValue(search.current.value);
     const querySearch = queryString.stringify(
       {
@@ -185,7 +184,7 @@ const NovelsShopPage = ({
                     pageCount={totalPages}
                     marginPagesDisplayed={3}
                     pageRangeDisplayed={3}
-                    forcePage={parseInt(page.current) - 1}
+                    forcePage={page - 1}
                     onPageChange={handlePageClick}
                     disableInitialCallback={true}
                     containerClassName={"pagination justify-content-center"}
