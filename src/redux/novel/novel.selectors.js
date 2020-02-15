@@ -42,24 +42,14 @@ export const selectAreInitialNovelsLoaded = createSelector(
   novel => !!novel.novels.lightNovels.length
 );
 
-export const selectIsCreateNovelLoading = createSelector(
+export const selectIsCrudNovelLoading = createSelector(
   [selectNovel],
-  novel => novel.isCreateNovelLoading
+  novel => novel.isCrudNovelLoading
 );
 
-export const selectIsCreateNovelSuccess = createSelector(
+export const selectIsCrudNovelSuccess = createSelector(
   [selectNovel],
-  novel => novel.isCreateNovelSuccess
-);
-
-export const selectIsUpdateNovelLoading = createSelector(
-  [selectNovel],
-  novel => novel.isUpdateNovelLoading
-);
-
-export const selectIsUpdateNovelSuccess = createSelector(
-  [selectNovel],
-  novel => novel.isUpdateNovelSuccess
+  novel => novel.isCrudNovelSuccess
 );
 
 export const selectError = createSelector([selectNovel], novel => novel.error);

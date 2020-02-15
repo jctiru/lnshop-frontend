@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import LoadingOverlay from "react-loading-overlay";
@@ -6,11 +6,14 @@ import moment from "moment";
 
 import {
   selectGenres,
-  selectIsCreateNovelLoading,
-  selectIsCreateNovelSuccess,
+  selectIsCrudNovelLoading,
+  selectIsCrudNovelSuccess,
   selectError
 } from "../../redux/novel/novel.selectors";
-import { createNovelStart } from "../../redux/novel/novel.actions";
+import {
+  createNovelStart,
+  crudNovelStatusReset
+} from "../../redux/novel/novel.actions";
 import Spinner from "../../components/spinner/spinner.component";
 
 import "./create-novel.styles.scss";
@@ -18,9 +21,10 @@ import "./create-novel.styles.scss";
 const CreateNovel = ({
   genresList,
   error,
-  isCreateNovelLoading,
-  isCreateNovelSuccess,
-  createNovelStart
+  isCrudNovelLoading,
+  isCrudNovelSuccess,
+  createNovelStart,
+  crudNovelStatusReset
 }) => {
   const [novel, setNovel] = useState({
     image: "",
@@ -34,6 +38,7 @@ const CreateNovel = ({
   });
   const [checkedItems, setCheckedItems] = useState({});
   const [errors, setErrors] = useState({});
+  const initialRender = useRef(true);
 
   const {
     image,
@@ -47,6 +52,20 @@ const CreateNovel = ({
   } = novel;
 
   useEffect(() => {
+    if (!initialRender.current) {
+      return;
+    }
+
+    if (isCrudNovelSuccess || error) {
+      crudNovelStatusReset();
+    }
+  }, [isCrudNovelSuccess, error, crudNovelStatusReset]);
+
+  useEffect(() => {
+    if (initialRender.current) {
+      return;
+    }
+
     let errorObject = {};
     if (
       error !== null &&
@@ -63,6 +82,11 @@ const CreateNovel = ({
   }, [error]);
 
   useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
+
     setNovel(novel => ({
       ...novel,
       genres: Object.keys(checkedItems).filter(k => checkedItems[k])
@@ -121,15 +145,15 @@ const CreateNovel = ({
     <div className="container">
       <div className="row">
         <div className="col-md-12 mx-auto">
-          <LoadingOverlay active={isCreateNovelLoading} spinner={<Spinner />}>
-            {isCreateNovelSuccess ? (
+          <LoadingOverlay active={isCrudNovelLoading} spinner={<Spinner />}>
+            {isCrudNovelSuccess ? (
               <div>
                 <div className="alert alert-dismissible alert-success fade show">
                   <button type="button" className="close" data-dismiss="alert">
                     &times;
                   </button>
                   Novel successfully created! Created time:{" "}
-                  {moment(isCreateNovelSuccess.createDateTime).format(
+                  {moment(isCrudNovelSuccess.createDateTime).format(
                     "MMMM Do YYYY, h:mm:ss a"
                   )}
                   .
@@ -290,13 +314,18 @@ const CreateNovel = ({
 
 const mapStateToProps = createStructuredSelector({
   genresList: selectGenres,
-  isCreateNovelLoading: selectIsCreateNovelLoading,
-  isCreateNovelSuccess: selectIsCreateNovelSuccess,
+  isCrudNovelLoading: selectIsCrudNovelLoading,
+  isCrudNovelSuccess: selectIsCrudNovelSuccess,
   error: selectError
 });
 
 const mapDistpatchToProps = dispatch => ({
-  createNovelStart: novel => dispatch(createNovelStart({ novel }))
+  createNovelStart: novel => dispatch(createNovelStart({ novel })),
+  crudNovelStatusReset: () => dispatch(crudNovelStatusReset())
 });
+
+CreateNovel.whyDidYouRender = {
+  //logOnDifferentValues: true
+};
 
 export default connect(mapStateToProps, mapDistpatchToProps)(CreateNovel);

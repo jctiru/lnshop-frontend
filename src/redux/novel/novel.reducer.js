@@ -7,10 +7,8 @@ const INITIAL_STATE = {
   isNovelLoading: false,
   isNovelsLoading: false,
   isGenresLoading: false,
-  isCreateNovelLoading: false,
-  isCreateNovelSuccess: false,
-  isUpdateNovelLoading: false,
-  isUpdateNovelSuccess: false,
+  isCrudNovelLoading: false,
+  isCrudNovelSuccess: false,
   error: null
 };
 
@@ -78,52 +76,33 @@ const novelReducer = (state = INITIAL_STATE, action) => {
         error: action.payload
       };
     case NovelActionTypes.CREATE_NOVEL_START:
-      return {
-        ...state,
-        isCreateNovelLoading: true,
-        isCreateNovelSuccess: false,
-        error: null
-      };
-    case NovelActionTypes.CREATE_NOVEL_SUCCESS:
-      return {
-        ...state,
-        isCreateNovelLoading: false,
-        isCreateNovelSuccess: action.payload,
-        error: null
-      };
-    case NovelActionTypes.CREATE_NOVEL_FAILURE:
-      return {
-        ...state,
-        isCreateNovelLoading: false,
-        isCreateNovelSuccess: false,
-        error: action.payload
-      };
     case NovelActionTypes.UPDATE_NOVEL_START:
       return {
         ...state,
-        isUpdateNovelLoading: true,
-        isUpdateNovelSuccess: false,
+        isCrudNovelLoading: true,
+        isCrudNovelSuccess: false,
         error: null
       };
+    case NovelActionTypes.CREATE_NOVEL_SUCCESS:
     case NovelActionTypes.UPDATE_NOVEL_SUCCESS:
       return {
         ...state,
-        isUpdateNovelLoading: false,
-        isUpdateNovelSuccess: action.payload,
+        isCrudNovelLoading: false,
+        isCrudNovelSuccess: action.payload,
         error: null
       };
+    case NovelActionTypes.CREATE_NOVEL_FAILURE:
     case NovelActionTypes.UPDATE_NOVEL_FAILURE:
       return {
         ...state,
-        isUpdateNovelLoading: false,
-        isUpdateNovelSuccess: false,
+        isCrudNovelLoading: false,
+        isCrudNovelSuccess: false,
         error: action.payload
       };
     case NovelActionTypes.CRUD_NOVEL_STATUS_RESET:
       return {
         ...state,
-        isCreateNovelSuccess: false,
-        isUpdateNovelSuccess: false,
+        isCrudNovelSuccess: false,
         error: null
       };
     default:

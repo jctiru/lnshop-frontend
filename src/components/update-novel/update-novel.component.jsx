@@ -7,8 +7,8 @@ import moment from "moment";
 import {
   selectGenres,
   selectLightNovel,
-  selectIsUpdateNovelLoading,
-  selectIsUpdateNovelSuccess,
+  selectIsCrudNovelLoading,
+  selectIsCrudNovelSuccess,
   selectError
 } from "../../redux/novel/novel.selectors";
 import {
@@ -21,8 +21,8 @@ const UpdateNovel = ({
   genresList,
   lightNovel,
   error,
-  isUpdateNovelLoading,
-  isUpdateNovelSuccess,
+  isCrudNovelLoading,
+  isCrudNovelSuccess,
   updateNovelStart,
   crudNovelStatusReset
 }) => {
@@ -56,10 +56,10 @@ const UpdateNovel = ({
       return;
     }
 
-    if (isUpdateNovelSuccess || error) {
+    if (isCrudNovelSuccess || error) {
       crudNovelStatusReset();
     }
-  }, [isUpdateNovelSuccess, error, crudNovelStatusReset]);
+  }, [isCrudNovelSuccess, error, crudNovelStatusReset]);
 
   useEffect(() => {
     if (initialRender.current) {
@@ -167,15 +167,15 @@ const UpdateNovel = ({
     <div className="container">
       <div className="row">
         <div className="col-md-12 mx-auto">
-          <LoadingOverlay active={isUpdateNovelLoading} spinner={<Spinner />}>
-            {isUpdateNovelSuccess ? (
+          <LoadingOverlay active={isCrudNovelLoading} spinner={<Spinner />}>
+            {isCrudNovelSuccess ? (
               <div>
                 <div className="alert alert-dismissible alert-success fade show">
                   <button type="button" className="close" data-dismiss="alert">
                     &times;
                   </button>
                   Novel successfully updated! Updated time:{" "}
-                  {moment(isUpdateNovelSuccess.updateDateTime).format(
+                  {moment(isCrudNovelSuccess.updateDateTime).format(
                     "MMMM Do YYYY, h:mm:ss a"
                   )}
                   .
@@ -337,8 +337,8 @@ const UpdateNovel = ({
 const mapStateToProps = createStructuredSelector({
   genresList: selectGenres,
   lightNovel: selectLightNovel,
-  isUpdateNovelLoading: selectIsUpdateNovelLoading,
-  isUpdateNovelSuccess: selectIsUpdateNovelSuccess,
+  isCrudNovelLoading: selectIsCrudNovelLoading,
+  isCrudNovelSuccess: selectIsCrudNovelSuccess,
   error: selectError
 });
 
