@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -10,7 +10,7 @@ import { selectTotalPages } from "../../redux/novel/novel.selectors";
 import ManageNovelsTableContainer from "../../components/manage-novels-table/manage-novels-table.container";
 
 const ManageNovelsPage = ({ getNovelsStart, totalPages }) => {
-  const page = useRef(1);
+  const [page, setPage] = useState(1);
   const location = useLocation();
   const history = useHistory();
 
@@ -22,16 +22,15 @@ const ManageNovelsPage = ({ getNovelsStart, totalPages }) => {
       /^\d+$/.test(queryStringObj.page) &&
       parseInt(queryStringObj.page) > 0
     ) {
-      page.current = queryStringObj.page;
+      setPage(parseInt(queryStringObj.page));
     }
 
     getNovelsStart(location.search);
   }, [getNovelsStart, location.search]);
 
   const handlePageClick = data => {
-    page.current = data.selected + 1;
     const querySearch = queryString.stringify(
-      { page: page.current },
+      { page: data.selected + 1 },
       { skipNull: true }
     );
     history.push(location.pathname + "?" + querySearch);
@@ -47,7 +46,7 @@ const ManageNovelsPage = ({ getNovelsStart, totalPages }) => {
               pageCount={totalPages}
               marginPagesDisplayed={3}
               pageRangeDisplayed={3}
-              forcePage={parseInt(page.current) - 1}
+              forcePage={page - 1}
               onPageChange={handlePageClick}
               disableInitialCallback={true}
               containerClassName={"pagination justify-content-center"}
@@ -79,5 +78,9 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   getNovelsStart: urlParam => dispatch(getNovelsStart({ urlParam }))
 });
+
+ManageNovelsPage.whyDidYouRender = {
+  //logOnDifferentValues: true
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageNovelsPage);
