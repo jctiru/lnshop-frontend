@@ -27,12 +27,13 @@ const NovelsShopPage = ({
   history
 }) => {
   const [checkedItems, setCheckedItems] = useState({});
-  const checkedItemsGenreNames = useRef([]);
   const [page, setPage] = useState(1);
+  const [genreParams, setGenreParams] = useState([]);
   const search = useRef(null);
-  const queryStringObj = useRef({});
   const initialRender = useRef(true);
   const initialCheckedItems = useRef(false);
+  const userToggled = useRef(false);
+  const previousGenreParamsRef = useRef(genreParams);
 
   // Fetch genres only once
   useEffect(() => {
@@ -41,14 +42,23 @@ const NovelsShopPage = ({
     }
   }, [genresList.length, getGenresStart]);
 
-  // After fetching genres, set genres checkboxes if present in URL Params
+  // If genres are already fetched, set genres checkboxes if present in URL Params
   useEffect(() => {
-    if (initialRender.current) {
+    if (genresList.length === 0) {
       return;
     }
 
-    // queryStringObj.current.genres = { genres: ["Action", "Drama", ...]}
-    if (typeof queryStringObj.current.genres !== "undefined") {
+    // Save current genre params for future comparison
+    previousGenreParamsRef.current = genreParams;
+
+    // Don't set genres checkboxes duplicately after URL changed, if genre checkboxes already changed due to user toggle
+    if (userToggled.current) {
+      userToggled.current = false;
+      return;
+    }
+
+    // genreParams = ["Action", "Drama", ...]
+    if (genreParams.length !== 0) {
       // { Action: {name: "Action", genreId: "XXXXXXX"}, ...}
       const genresObj = genresList.reduce((acc, cv) => {
         acc[cv.name] = { name: cv.name, genreId: cv.genreId };
@@ -56,7 +66,7 @@ const NovelsShopPage = ({
       }, {});
       const checkedItemsObj = {};
 
-      queryStringObj.current.genres.forEach(genre => {
+      genreParams.forEach(genre => {
         if (typeof genresObj[genre] !== "undefined") {
           checkedItemsObj[genresObj[genre].genreId] = {
             isChecked: true,
@@ -65,57 +75,94 @@ const NovelsShopPage = ({
           };
         }
       });
-
-      initialCheckedItems.current = true;
       setCheckedItems(checkedItemsObj);
+    } else {
+      setCheckedItems({});
     }
-  }, [genresList]);
+
+    // Indicate that checkbox change is due to initial URL Params, caused by either page load or history back/forward
+    initialCheckedItems.current = true;
+  }, [genresList, genreParams]);
 
   //On initial render and every URL change, fetch novels based on URL Params and save URL Params for processing
   useEffect(() => {
-    queryStringObj.current = queryString.parse(location.search);
+    const queryStringObj = queryString.parse(location.search);
 
     if (
-      typeof queryStringObj.current.page !== "undefined" &&
-      /^\d+$/.test(queryStringObj.current.page) &&
-      parseInt(queryStringObj.current.page) > 0
+      typeof queryStringObj.page !== "undefined" &&
+      /^\d+$/.test(queryStringObj.page) &&
+      parseInt(queryStringObj.page) > 0
     ) {
-      setPage(parseInt(queryStringObj.current.page));
+      setPage(parseInt(queryStringObj.page));
     } else {
       setPage(1);
     }
 
-    if (typeof queryStringObj.current.genres === "string") {
-      queryStringObj.current.genres = [queryStringObj.current.genres];
+    // Compare previous value to current value before setting genre params
+    if (
+      typeof queryStringObj.genres !== "undefined" &&
+      typeof queryStringObj.genres === "string"
+    ) {
+      if (
+        JSON.stringify(previousGenreParamsRef.current) !==
+        JSON.stringify([queryStringObj.genres])
+      ) {
+        setGenreParams([queryStringObj.genres]);
+      }
+    } else if (
+      typeof queryStringObj.genres !== "undefined" &&
+      Array.isArray(queryStringObj.genres)
+    ) {
+      if (
+        JSON.stringify(previousGenreParamsRef.current) !==
+        JSON.stringify(queryStringObj.genres)
+      ) {
+        setGenreParams(queryStringObj.genres);
+      }
+    } else {
+      if (
+        JSON.stringify(previousGenreParamsRef.current) !== JSON.stringify([])
+      ) {
+        setGenreParams([]);
+      }
     }
 
-    if (typeof queryStringObj.current.search !== "undefined") {
-      search.current.value = queryStringObj.current.search;
+    if (typeof queryStringObj.search !== "undefined") {
+      search.current.value = queryStringObj.search;
+    } else {
+      search.current.value = null;
     }
 
     getNovelsStart(location.search);
   }, [getNovelsStart, location.search]);
 
-  // On checkboxes change except from initial change due to initial URL Params, change URL
+  // On checkboxes change, only if user toggled, change URL
   useEffect(() => {
+    // Don't run on initial render
     if (initialRender.current) {
       initialRender.current = false;
       return;
     }
 
-    checkedItemsGenreNames.current = Object.values(checkedItems)
-      .filter(item => item.isChecked)
-      .map(item => item.name);
-
     // Don't change URL on initial checkboxes change due to initial URL Params
     if (initialCheckedItems.current) {
       initialCheckedItems.current = false;
       return;
+    } else {
+      // Indicate that change is due to user toggle
+      userToggled.current = true;
     }
+
+    const genreParamsArray = Object.values(checkedItems)
+      .filter(item => item.isChecked)
+      .map(item => item.name);
 
     const searchValue = processSearchValue(search.current.value);
     const querySearch = queryString.stringify(
-      { genres: checkedItemsGenreNames.current, search: searchValue },
+      {
+        genres: genreParamsArray,
+        search: searchValue
+      },
       { skipNull: true }
     );
     history.push(location.pathname + "?" + querySearch);
@@ -126,7 +173,7 @@ const NovelsShopPage = ({
     const querySearch = queryString.stringify(
       {
         page: data.selected + 1,
-        genres: checkedItemsGenreNames.current,
+        genres: genreParams,
         search: searchValue
       },
       { skipNull: true }
@@ -138,7 +185,7 @@ const NovelsShopPage = ({
     const searchValue = processSearchValue(search.current.value);
     const querySearch = queryString.stringify(
       {
-        genres: checkedItemsGenreNames.current,
+        genres: genreParams,
         search: searchValue
       },
       { skipNull: true }
