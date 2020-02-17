@@ -29,9 +29,12 @@ const CartPage = ({
   return (
     <>
       {/* Jumbotron */}
-      <div class="container">
-        <div id="cart-page-jumbotron" class="jumbotron text-center py-4 mb-3">
-          <h1 class="text-white jumbotron-text-shadow">Cart</h1>
+      <div className="container">
+        <div
+          id="cart-page-jumbotron"
+          className="jumbotron text-center py-4 mb-3"
+        >
+          <h1 className="text-white jumbotron-text-shadow">Cart</h1>
         </div>
       </div>
       <div className="container mt-2 mb-5 pb-5">
