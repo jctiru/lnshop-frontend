@@ -348,7 +348,7 @@ const mapStateToProps = createStructuredSelector({
   error: selectError
 });
 
-const mapDistpatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   updateNovelStart: (lightNovelId, novel) =>
     dispatch(updateNovelStart({ lightNovelId, novel })),
   crudNovelStatusReset: () => dispatch(crudNovelStatusReset())
@@ -358,4 +358,4 @@ UpdateNovel.whyDidYouRender = {
   //logOnDifferentValues: true
 };
 
-export default connect(mapStateToProps, mapDistpatchToProps)(UpdateNovel);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateNovel);

@@ -319,7 +319,7 @@ const mapStateToProps = createStructuredSelector({
   error: selectError
 });
 
-const mapDistpatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   createNovelStart: novel => dispatch(createNovelStart({ novel })),
   crudNovelStatusReset: () => dispatch(crudNovelStatusReset())
 });
@@ -328,4 +328,4 @@ CreateNovel.whyDidYouRender = {
   //logOnDifferentValues: true
 };
 
-export default connect(mapStateToProps, mapDistpatchToProps)(CreateNovel);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateNovel);
