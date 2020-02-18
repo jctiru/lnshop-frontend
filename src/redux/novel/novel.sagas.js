@@ -11,14 +11,18 @@ import {
   createNovelSuccess,
   createNovelFailure,
   updateNovelSuccess,
-  updateNovelFailure
+  updateNovelFailure,
+  deleteNovelSuccess,
+  deleteNovelFailure,
+  removeNovel
 } from "./novel.actions";
 import {
   getGenresApi,
   getNovelsApi,
   getNovelApi,
   createNovelApi,
-  updateNovelApi
+  updateNovelApi,
+  deleteNovelApi
 } from "../api/novel.api";
 
 const getToken = state => state.user.currentUser.token;
@@ -70,6 +74,17 @@ function* updateNovel({ payload: { lightNovelId, novel } }) {
   }
 }
 
+function* deleteNovel({ payload: { lightNovelId } }) {
+  try {
+    const token = yield select(getToken);
+    const { data } = yield call(deleteNovelApi, token, lightNovelId);
+    yield put(deleteNovelSuccess(data));
+    yield put(removeNovel(lightNovelId));
+  } catch (error) {
+    yield put(deleteNovelFailure(error.response.data));
+  }
+}
+
 function* onGetGenresStart() {
   yield takeLatest(NovelActionTypes.GET_GENRES_START, getGenres);
 }
@@ -90,12 +105,17 @@ function* onUpdateNovelStart() {
   yield takeLatest(NovelActionTypes.UPDATE_NOVEL_START, updateNovel);
 }
 
+function* onDeleteNovelStart() {
+  yield takeLatest(NovelActionTypes.DELETE_NOVEL_START, deleteNovel);
+}
+
 export function* novelSagas() {
   yield all([
     call(onGetGenresStart),
     call(onGetNovelsStart),
     call(onGetNovelStart),
     call(onCreateNovelStart),
-    call(onUpdateNovelStart)
+    call(onUpdateNovelStart),
+    call(onDeleteNovelStart)
   ]);
 }

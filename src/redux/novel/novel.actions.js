@@ -74,6 +74,26 @@ export const updateNovelFailure = error => ({
   payload: error
 });
 
+export const deleteNovelStart = novelId => ({
+  type: NovelActionTypes.DELETE_NOVEL_START,
+  payload: novelId
+});
+
+export const deleteNovelSuccess = response => ({
+  type: NovelActionTypes.DELETE_NOVEL_SUCCESS,
+  payload: response
+});
+
+export const deleteNovelFailure = error => ({
+  type: NovelActionTypes.DELETE_NOVEL_FAILURE,
+  payload: error
+});
+
+export const removeNovel = novelId => ({
+  type: NovelActionTypes.REMOVE_NOVEL,
+  payload: novelId
+});
+
 export const crudNovelStatusReset = () => ({
   type: NovelActionTypes.CRUD_NOVEL_STATUS_RESET
 });

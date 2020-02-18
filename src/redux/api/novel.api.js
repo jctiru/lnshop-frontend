@@ -44,3 +44,13 @@ export const updateNovelApi = (token, lightNovelId, novel) => {
     }
   });
 };
+
+export const deleteNovelApi = (token, lightNovelId) => {
+  return axios({
+    url: `/lightnovels/${lightNovelId}`,
+    method: "delete",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};

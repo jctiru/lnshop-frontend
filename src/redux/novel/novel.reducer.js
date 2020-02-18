@@ -77,6 +77,7 @@ const novelReducer = (state = INITIAL_STATE, action) => {
       };
     case NovelActionTypes.CREATE_NOVEL_START:
     case NovelActionTypes.UPDATE_NOVEL_START:
+    case NovelActionTypes.DELETE_NOVEL_START:
       return {
         ...state,
         isCrudNovelLoading: true,
@@ -85,6 +86,7 @@ const novelReducer = (state = INITIAL_STATE, action) => {
       };
     case NovelActionTypes.CREATE_NOVEL_SUCCESS:
     case NovelActionTypes.UPDATE_NOVEL_SUCCESS:
+    case NovelActionTypes.DELETE_NOVEL_SUCCESS:
       return {
         ...state,
         isCrudNovelLoading: false,
@@ -93,11 +95,22 @@ const novelReducer = (state = INITIAL_STATE, action) => {
       };
     case NovelActionTypes.CREATE_NOVEL_FAILURE:
     case NovelActionTypes.UPDATE_NOVEL_FAILURE:
+    case NovelActionTypes.DELETE_NOVEL_FAILURE:
       return {
         ...state,
         isCrudNovelLoading: false,
         isCrudNovelSuccess: false,
         error: action.payload
+      };
+    case NovelActionTypes.REMOVE_NOVEL:
+      return {
+        ...state,
+        novels: {
+          totalPages: state.novels.totalPages,
+          lightNovels: state.novels.lightNovels.filter(
+            novel => novel.lightNovelId !== action.payload
+          )
+        }
       };
     case NovelActionTypes.CRUD_NOVEL_STATUS_RESET:
       return {

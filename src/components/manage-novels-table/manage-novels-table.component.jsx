@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import moment from "moment";
 
 import { selectNovels } from "../../redux/novel/novel.selectors";
+import { deleteNovelStart } from "../../redux/novel/novel.actions";
 
-const ManageNovelsTable = ({ novels }) => {
+const ManageNovelsTable = ({ novels, deleteNovelStart }) => {
+  const [novelIdAndTitle, setNovelIdAndTitle] = useState({
+    novelId: null,
+    novelTitle: null
+  });
   const location = useLocation();
+
+  const handleModalOpen = e => {
+    setNovelIdAndTitle({
+      novelId: e.target.getAttribute("data-novel-id"),
+      novelTitle: e.target.getAttribute("data-novel-title")
+    });
+  };
+
+  const handleDeleteClick = () => {
+    deleteNovelStart(novelIdAndTitle.novelId);
+  };
 
   return (
     <div className="table-responsive">
@@ -28,9 +44,23 @@ const ManageNovelsTable = ({ novels }) => {
           {novels.map(novel => (
             <tr key={novel.lightNovelId}>
               <td>
-                <Link to={location.pathname + "/" + novel.lightNovelId}>
+                <Link
+                  className="btn btn-link p-0"
+                  to={location.pathname + "/" + novel.lightNovelId}
+                >
                   Edit
                 </Link>
+                /
+                <button
+                  data-novel-id={novel.lightNovelId}
+                  data-novel-title={novel.title}
+                  data-toggle="modal"
+                  data-target="#deleteModal"
+                  className="btn btn-link p-0"
+                  onClick={handleModalOpen}
+                >
+                  Delete
+                </button>
               </td>
               <td>{novel.lightNovelId}</td>
               <td>{novel.title}</td>
@@ -47,6 +77,44 @@ const ManageNovelsTable = ({ novels }) => {
           ))}
         </tbody>
       </table>
+      {/* Modal */}
+      <div className="modal fade" id="deleteModal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Delete Novel</h5>
+              <button className="close" data-dismiss="modal">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div className="modal-body text-wrap text-break">
+              <h6>Are you sure you want to delete this novel?</h6>
+              <br />
+              <br />
+              Novel Id:
+              <br />
+              {novelIdAndTitle.novelId}
+              <br />
+              <br />
+              Novel Title:
+              <br />
+              {novelIdAndTitle.novelTitle}
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button
+                className="btn btn-danger"
+                onClick={handleDeleteClick}
+                data-dismiss="modal"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -55,4 +123,8 @@ const mapStateToProps = createStructuredSelector({
   novels: selectNovels
 });
 
-export default connect(mapStateToProps)(ManageNovelsTable);
+const mapDispatchToProps = dispatch => ({
+  deleteNovelStart: lightNovelId => dispatch(deleteNovelStart({ lightNovelId }))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageNovelsTable);
