@@ -9,8 +9,7 @@ import createFilter from "redux-persist-transform-filter";
 import userReducer from "./user/user.reducer";
 import novelReducer from "./novel/novel.reducer";
 import cartReducer from "./cart/cart.reducer";
-//import directoryReducer from "./directory/directory.reducer";
-//import shopReducer from "./shop/shop.reducer";
+import orderReducer from "./order/order.reducer";
 import { routerReducer } from "./history/history";
 
 const saveUserSubsetFilter = createFilter("user", ["currentUser"]);
@@ -33,8 +32,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   novel: novelReducer,
   cart: cartReducer,
-  //directory: directoryReducer,
-  //shop: shopReducer
+  order: orderReducer,
   router: routerReducer
 });
 
