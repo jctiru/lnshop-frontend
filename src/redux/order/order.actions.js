@@ -1,8 +1,8 @@
 import { OrderActionTypes } from "./order.types";
 
-export const createOrderStart = stripeTokenAndEmail => ({
+export const createOrderStart = stripeTokenIdAndAddressArgs => ({
   type: OrderActionTypes.CREATE_ORDER_START,
-  payload: stripeTokenAndEmail
+  payload: stripeTokenIdAndAddressArgs
 });
 
 export const createOrderSuccess = response => ({

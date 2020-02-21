@@ -1,10 +1,15 @@
 import axios from "axios";
 
-export const createOrderApi = (authToken, stripeToken, cartItems) => {
+export const createOrderApi = (
+  authToken,
+  stripeTokenId,
+  addressArgs,
+  cartItems
+) => {
   return axios({
     url: "/orders",
     method: "post",
-    data: { token: stripeToken, cartItems },
+    data: { stripeTokenId, addressArgs, cartItems },
     headers: {
       Authorization: `Bearer ${authToken}`
     }

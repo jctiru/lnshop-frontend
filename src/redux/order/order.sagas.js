@@ -7,7 +7,7 @@ import { createOrderApi } from "../api/order.api";
 const getToken = state => state.user.currentUser.token;
 const getCartItems = state => state.cart.cartItems;
 
-function* createOrder({ payload: { stripeToken } }) {
+function* createOrder({ payload: { stripeTokenId, addressArgs } }) {
   try {
     const authToken = yield select(getToken);
     const cartItems = yield select(getCartItems);
@@ -18,7 +18,8 @@ function* createOrder({ payload: { stripeToken } }) {
     const { data } = yield call(
       createOrderApi,
       authToken,
-      stripeToken,
+      stripeTokenId,
+      addressArgs,
       cartItemsObj
     );
     yield put(createOrderSuccess(data));

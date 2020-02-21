@@ -13,8 +13,8 @@ const StripeCheckoutButton = ({
   createOrderStart
 }) => {
   const publishableKey = "pk_test_k0zjPzo8Fm45BDMd2HBZ9sZP005Wtc69HN";
-  const onToken = token => {
-    createOrderStart(token.id);
+  const onToken = (token, addressArgs) => {
+    createOrderStart(token.id, addressArgs);
   };
 
   return (
@@ -23,6 +23,7 @@ const StripeCheckoutButton = ({
       description={`Your total is $${price}`}
       panelLabel="Pay Now"
       billingAddress
+      shippingAddress
       email={currentUser.email}
       amount={price * 100}
       token={onToken}
@@ -41,7 +42,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createOrderStart: stripeToken => dispatch(createOrderStart({ stripeToken }))
+  createOrderStart: (stripeTokenId, addressArgs) =>
+    dispatch(createOrderStart({ stripeTokenId, addressArgs }))
 });
 
 export default connect(
