@@ -14,6 +14,7 @@ const orderReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isCrudOrderLoading: true,
+        isCrudOrderSuccess: false,
         error: null
       };
     case OrderActionTypes.CREATE_ORDER_SUCCESS:
