@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import moment from "moment";
+import moment from "moment/min/moment.min";
 
 import { selectNovels } from "../../redux/novel/novel.selectors";
 import { deleteNovelStart } from "../../redux/novel/novel.actions";

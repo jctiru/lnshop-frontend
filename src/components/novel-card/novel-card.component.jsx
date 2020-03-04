@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import moment from "moment";
+import moment from "moment/min/moment.min";
 
 const NovelCard = ({ novel }) => (
   <div className="col-lg-3 col-md-6 col-12 mt-3 mb-3 d-flex">

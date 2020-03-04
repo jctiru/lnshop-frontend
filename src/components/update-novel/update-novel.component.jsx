@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import LoadingOverlay from "react-loading-overlay";
-import moment from "moment";
+import moment from "moment/min/moment.min";
 
 import {
   selectGenres,
