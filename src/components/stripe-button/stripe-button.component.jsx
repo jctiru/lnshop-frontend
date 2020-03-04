@@ -30,7 +30,7 @@ const StripeCheckoutButton = ({
       stripeKey={publishableKey}
       disabled={disabled}
     >
-      <button className="btn btn-success btn-block">
+      <button className="btn btn-success btn-block" disabled={disabled}>
         <i className="fa fa-shopping-basket"></i> Checkout
       </button>
     </StripeCheckout>

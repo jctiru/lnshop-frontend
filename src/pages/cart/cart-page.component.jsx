@@ -199,9 +199,12 @@ const CartPage = ({
                 </div>
                 <div className="col-md-3">
                   {currentUser ? (
-                    <StripeCheckoutButton price={total} />
+                    <StripeCheckoutButton
+                      price={total}
+                      disabled={total === 0 ? true : false}
+                    />
                   ) : (
-                    <CartLogin />
+                    <CartLogin disabled={total === 0 ? true : false} />
                   )}
                 </div>
               </div>

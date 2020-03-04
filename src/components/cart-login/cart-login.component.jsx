@@ -1,7 +1,7 @@
 import React from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const CartLogin = () => {
+const CartLogin = ({ disabled = false }) => {
   const history = useHistory();
 
   return (
@@ -10,6 +10,7 @@ const CartLogin = () => {
         data-toggle="modal"
         data-target="#cartLoginModal"
         className="btn btn-success btn-block"
+        disabled={disabled}
       >
         <i className="fa fa-shopping-basket"></i> Checkout
       </button>
