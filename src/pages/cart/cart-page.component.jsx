@@ -20,6 +20,7 @@ import {
   removeItem
 } from "../../redux/cart/cart.actions";
 import { crudOrderStatusReset } from "../../redux/order/order.actions";
+import CartLogin from "../../components/cart-login/cart-login.component";
 import StripeCheckoutButton from "../../components/stripe-button/stripe-button.component";
 import Spinner from "../../components/spinner/spinner.component";
 
@@ -191,7 +192,11 @@ const CartPage = ({
                   </h4>
                 </div>
                 <div className="col-md-3">
-                  <StripeCheckoutButton price={total} />
+                  {currentUser ? (
+                    <StripeCheckoutButton price={total} />
+                  ) : (
+                    <CartLogin />
+                  )}
                 </div>
               </div>
             </div>
