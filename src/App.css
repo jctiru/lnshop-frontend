@@ -1,3 +1,13 @@
+#root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
 .jumbotron-text-shadow {
   font-size: 2.5rem;
   text-shadow: 1px 1px 1px #000000;
