@@ -117,72 +117,78 @@ const CartPage = ({
                   </div>
                 </div>
               </div>
-              {cartItems.map(cartItem => (
-                <div key={cartItem.lightNovelId}>
-                  <hr />
-                  <div className="row">
-                    <div className="col-md-1">
-                      <Link to={`novels/show/${cartItem.lightNovelId}`}>
-                        <img
-                          className="img-fluid"
-                          src={cartItem.imageUrl}
-                          alt={cartItem.imageUrl}
-                        />
-                      </Link>
-                    </div>
-                    <div className="col-md-6">
-                      <h5 className="mb-0">
+              {cartItems.length === 0 ? (
+                <div className="text-center my-5 h1">EMPTY CART</div>
+              ) : (
+                cartItems.map(cartItem => (
+                  <div key={cartItem.lightNovelId}>
+                    <hr />
+                    <div className="row">
+                      <div className="col-md-1">
                         <Link to={`novels/show/${cartItem.lightNovelId}`}>
-                          <strong>{cartItem.title}</strong>
+                          <img
+                            className="img-fluid"
+                            src={cartItem.imageUrl}
+                            alt={cartItem.imageUrl}
+                          />
                         </Link>
-                      </h5>
-                      <p className="text-muted mb-0">
-                        {cartItem.genres.map(genre => genre.name + " ")}
-                      </p>
-                    </div>
-                    <div className="col-md-5">
-                      <div className="row align-items-center">
-                        <div className="col-md-3">
-                          <h6 className="mb-0">
-                            <strong>${cartItem.price}</strong>
-                          </h6>
-                        </div>
-                        <div className="col-md-3 d-flex justify-content-start">
-                          <div
-                            style={{ cursor: "pointer" }}
-                            onClick={() => removeItem(cartItem)}
-                          >
-                            &#10094;
+                      </div>
+                      <div className="col-md-6">
+                        <h5 className="mb-0">
+                          <Link to={`novels/show/${cartItem.lightNovelId}`}>
+                            <strong>{cartItem.title}</strong>
+                          </Link>
+                        </h5>
+                        <p className="text-muted mb-0">
+                          {cartItem.genres.map(genre => genre.name + " ")}
+                        </p>
+                      </div>
+                      <div className="col-md-5">
+                        <div className="row align-items-center">
+                          <div className="col-md-3">
+                            <h6 className="mb-0">
+                              <strong>${cartItem.price}</strong>
+                            </h6>
                           </div>
-                          <span className="mx-1">{cartItem.cartQuantity}</span>
-                          <div
-                            style={{ cursor: "pointer" }}
-                            onClick={() => addItem(cartItem)}
-                          >
-                            &#10095;
+                          <div className="col-md-3 d-flex justify-content-start">
+                            <div
+                              style={{ cursor: "pointer" }}
+                              onClick={() => removeItem(cartItem)}
+                            >
+                              &#10094;
+                            </div>
+                            <span className="mx-1">
+                              {cartItem.cartQuantity}
+                            </span>
+                            <div
+                              style={{ cursor: "pointer" }}
+                              onClick={() => addItem(cartItem)}
+                            >
+                              &#10095;
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-md-3">
-                          <h6 className="mb-0">
-                            <strong>
-                              ${cartItem.price * cartItem.cartQuantity}
-                            </strong>
-                          </h6>
-                        </div>
-                        <div className="col-md-3 text-center">
-                          <button
-                            type="button"
-                            className="btn btn-link btn-sm cart-delete-button"
-                            onClick={() => clearItem(cartItem)}
-                          >
-                            <i className="fa fa-trash-o fa-2x"></i>
-                          </button>
+                          <div className="col-md-3">
+                            <h6 className="mb-0">
+                              <strong>
+                                ${cartItem.price * cartItem.cartQuantity}
+                              </strong>
+                            </h6>
+                          </div>
+                          <div className="col-md-3 text-center">
+                            <button
+                              type="button"
+                              className="btn btn-link btn-sm cart-delete-button"
+                              onClick={() => clearItem(cartItem)}
+                            >
+                              <i className="fa fa-trash-o fa-2x"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
             <div className="card-footer text-muted">
               <div className="row align-items-center">
