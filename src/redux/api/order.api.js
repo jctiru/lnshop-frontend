@@ -15,3 +15,15 @@ export const createOrderApi = (
     }
   });
 };
+
+export const getOrdersApi = (authority, authToken, urlParams) => {
+  return axios({
+    url: `/orders${authority === "ADMIN" ? "/admin" : ""}${
+      urlParams ? urlParams : ""
+    }`,
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  });
+};

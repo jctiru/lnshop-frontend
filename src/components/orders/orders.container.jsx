@@ -3,20 +3,20 @@ import { compose } from "redux";
 import { createStructuredSelector } from "reselect";
 
 import {
-  selectIsNovelsLoading,
-  selectAreInitialNovelsLoaded
-} from "../../redux/novel/novel.selectors";
+  selectIsCrudOrderLoading,
+  selectAreInitialOrdersLoaded
+} from "../../redux/order/order.selectors";
 import WithSpinnerItems from "../with-spinner-items/with-spinner-items.component";
-import Novels from "./novels.component";
+import Orders from "./orders.component";
 
 const mapStateToProps = createStructuredSelector({
-  isLoading: selectIsNovelsLoading,
-  areInitialItemsLoaded: selectAreInitialNovelsLoaded
+  isLoading: selectIsCrudOrderLoading,
+  areInitialItemsLoaded: selectAreInitialOrdersLoaded
 });
 
-const NovelsContainer = compose(
+const OrdersContainer = compose(
   connect(mapStateToProps),
   WithSpinnerItems
-)(Novels);
+)(Orders);
 
-export default NovelsContainer;
+export default OrdersContainer;

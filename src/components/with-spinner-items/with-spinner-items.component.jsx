@@ -3,12 +3,12 @@ import LoadingOverlay from "react-loading-overlay";
 
 import Spinner from "../spinner/spinner.component";
 
-const WithSpinnerNovels = WrappedComponent => ({
+const WithSpinnerItems = WrappedComponent => ({
   isLoading,
-  areInitialNovelsLoaded,
+  areInitialItemsLoaded,
   ...otherProps
 }) => {
-  return isLoading && !areInitialNovelsLoaded ? (
+  return isLoading && !areInitialItemsLoaded ? (
     <Spinner />
   ) : (
     <LoadingOverlay active={isLoading} spinner={<Spinner />}>
@@ -17,4 +17,4 @@ const WithSpinnerNovels = WrappedComponent => ({
   );
 };
 
-export default WithSpinnerNovels;
+export default WithSpinnerItems;

@@ -15,6 +15,21 @@ export const createOrderFailure = error => ({
   payload: error
 });
 
+export const getOrdersStart = authorityAndPage => ({
+  type: OrderActionTypes.GET_ORDERS_START,
+  payload: authorityAndPage
+});
+
+export const getOrdersSuccess = orders => ({
+  type: OrderActionTypes.GET_ORDERS_SUCCESS,
+  payload: orders
+});
+
+export const getOrdersFailure = error => ({
+  type: OrderActionTypes.GET_ORDERS_FAILURE,
+  payload: error
+});
+
 export const crudOrderStatusReset = () => ({
   type: OrderActionTypes.CRUD_ORDER_STATUS_RESET
 });

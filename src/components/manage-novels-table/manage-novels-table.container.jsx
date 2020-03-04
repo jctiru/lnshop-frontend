@@ -6,17 +6,17 @@ import {
   selectIsNovelsLoading,
   selectAreInitialNovelsLoaded
 } from "../../redux/novel/novel.selectors";
-import WithSpinnerNovels from "../with-spinner-novels/with-spinner-novels.component";
+import WithSpinnerItems from "../with-spinner-items/with-spinner-items.component";
 import ManageNovelsTable from "./manage-novels-table.component";
 
 const mapStateToProps = createStructuredSelector({
   isLoading: selectIsNovelsLoading,
-  areInitialNovelsLoaded: selectAreInitialNovelsLoaded
+  areInitialItemsLoaded: selectAreInitialNovelsLoaded
 });
 
 const ManageNovelsTableContainer = compose(
   connect(mapStateToProps),
-  WithSpinnerNovels
+  WithSpinnerItems
 )(ManageNovelsTable);
 
 export default ManageNovelsTableContainer;

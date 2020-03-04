@@ -1,8 +1,13 @@
 import { takeLatest, put, all, call, select } from "redux-saga/effects";
 
 import { OrderActionTypes } from "./order.types";
-import { createOrderSuccess, createOrderFailure } from "./order.actions";
-import { createOrderApi } from "../api/order.api";
+import {
+  createOrderSuccess,
+  createOrderFailure,
+  getOrdersSuccess,
+  getOrdersFailure
+} from "./order.actions";
+import { createOrderApi, getOrdersApi } from "../api/order.api";
 
 const getToken = state => state.user.currentUser.token;
 const getCartItems = state => state.cart.cartItems;
@@ -28,10 +33,24 @@ function* createOrder({ payload: { stripeTokenId, addressArgs } }) {
   }
 }
 
+function* getOrders({ payload: { authority, urlParams } }) {
+  try {
+    const authToken = yield select(getToken);
+    const { data } = yield call(getOrdersApi, authority, authToken, urlParams);
+    yield put(getOrdersSuccess(data));
+  } catch (error) {
+    yield put(getOrdersFailure(error.response.data));
+  }
+}
+
 function* onCreateOrderStart() {
   yield takeLatest(OrderActionTypes.CREATE_ORDER_START, createOrder);
 }
 
+function* onGetOrdersStart() {
+  yield takeLatest(OrderActionTypes.GET_ORDERS_START, getOrders);
+}
+
 export function* orderSagas() {
-  yield all([call(onCreateOrderStart)]);
+  yield all([call(onCreateOrderStart), call(onGetOrdersStart)]);
 }
