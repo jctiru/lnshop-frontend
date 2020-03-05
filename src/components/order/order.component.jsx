@@ -11,7 +11,6 @@ const Order = ({ order }) => {
 
   return (
     <div className="container mt-1 mb-5">
-      {console.log(order)}
       <button onClick={() => history.goBack()} className="btn btn-light m-1">
         <i className="fa fa-backward" /> Back
       </button>
