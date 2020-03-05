@@ -12,6 +12,7 @@ const orderReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case OrderActionTypes.CREATE_ORDER_START:
     case OrderActionTypes.GET_ORDERS_START:
+    case OrderActionTypes.GET_ORDER_START:
       return {
         ...state,
         isCrudOrderLoading: true,
@@ -32,16 +33,32 @@ const orderReducer = (state = INITIAL_STATE, action) => {
         isCrudOrderLoading: false,
         error: null
       };
+    case OrderActionTypes.GET_ORDER_SUCCESS:
+      return {
+        ...state,
+        order: action.payload,
+        isCrudOrderLoading: false,
+        error: null
+      };
+    case OrderActionTypes.CREATE_ORDER_FAILURE:
+      return {
+        ...state,
+        isCrudOrderLoading: false,
+        isCrudOrderSuccess: false,
+        error: action.payload
+      };
     case OrderActionTypes.GET_ORDERS_FAILURE:
       return {
         ...state,
         orders: { totalPages: 0, orders: [] },
         isCrudOrderLoading: false,
+        isCrudOrderSuccess: false,
         error: action.payload
       };
-    case OrderActionTypes.CREATE_ORDER_FAILURE:
+    case OrderActionTypes.GET_ORDER_FAILURE:
       return {
         ...state,
+        order: null,
         isCrudOrderLoading: false,
         isCrudOrderSuccess: false,
         error: action.payload

@@ -17,6 +17,11 @@ export const selectAreInitialOrdersLoaded = createSelector(
   order => !!order.orders.orders.length
 );
 
+export const selectOrderDetails = createSelector(
+  [selectOrder],
+  order => order.order
+);
+
 export const selectIsCrudOrderLoading = createSelector(
   [selectOrder],
   order => order.isCrudOrderLoading

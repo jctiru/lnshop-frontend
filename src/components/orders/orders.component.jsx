@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import moment from "moment/min/moment.min";
@@ -6,6 +7,8 @@ import moment from "moment/min/moment.min";
 import { selectOrders } from "../../redux/order/order.selectors";
 
 const Orders = ({ orders }) => {
+  const location = useLocation();
+
   return (
     <div className="container mt-1 mb-5">
       <div className="card border-secondary mb-xs-5 mt-xs-5">
@@ -50,6 +53,14 @@ const Orders = ({ orders }) => {
                         </span>{" "}
                         ****
                         {order.card.last4}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="mb-2">
+                        <i className="fa fa-link"></i>
+                        <Link to={`${location.pathname}/${order.orderId}`}>
+                          <strong>View Details</strong>
+                        </Link>
                       </div>
                     </div>
                   </div>

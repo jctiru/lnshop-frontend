@@ -27,3 +27,13 @@ export const getOrdersApi = (authority, authToken, urlParams) => {
     }
   });
 };
+
+export const getOrderApi = (authToken, orderId) => {
+  return axios({
+    url: `/orders/${orderId}`,
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    }
+  });
+};

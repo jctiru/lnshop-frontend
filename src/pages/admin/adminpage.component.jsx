@@ -16,6 +16,7 @@ const UpdateNovelPage = lazy(() =>
   import("../update-novel/update-novel-page.component")
 );
 const OrdersPage = lazy(() => import("../orders/orders-page.component"));
+const OrderPage = lazy(() => import("../order/order-page.component"));
 
 const AdminPage = ({ match }) => {
   return (
@@ -42,6 +43,11 @@ const AdminPage = ({ match }) => {
               component={UpdateNovelPage}
             />
             <Route exact path={`${match.path}/orders`} component={OrdersPage} />
+            <Route
+              exact
+              path={`${match.path}/orders/:orderId`}
+              component={OrderPage}
+            />
           </Suspense>
         </div>
       </div>

@@ -5,9 +5,11 @@ import {
   createOrderSuccess,
   createOrderFailure,
   getOrdersSuccess,
-  getOrdersFailure
+  getOrdersFailure,
+  getOrderSuccess,
+  getOrderFailure
 } from "./order.actions";
-import { createOrderApi, getOrdersApi } from "../api/order.api";
+import { createOrderApi, getOrdersApi, getOrderApi } from "../api/order.api";
 
 const getToken = state => state.user.currentUser.token;
 const getCartItems = state => state.cart.cartItems;
@@ -43,6 +45,16 @@ function* getOrders({ payload: { authority, urlParams } }) {
   }
 }
 
+function* getOrder({ payload: { orderId } }) {
+  try {
+    const authToken = yield select(getToken);
+    const { data } = yield call(getOrderApi, authToken, orderId);
+    yield put(getOrderSuccess(data));
+  } catch (error) {
+    yield put(getOrderFailure(error.response.data));
+  }
+}
+
 function* onCreateOrderStart() {
   yield takeLatest(OrderActionTypes.CREATE_ORDER_START, createOrder);
 }
@@ -51,6 +63,14 @@ function* onGetOrdersStart() {
   yield takeLatest(OrderActionTypes.GET_ORDERS_START, getOrders);
 }
 
+function* onGetOrderStart() {
+  yield takeLatest(OrderActionTypes.GET_ORDER_START, getOrder);
+}
+
 export function* orderSagas() {
-  yield all([call(onCreateOrderStart), call(onGetOrdersStart)]);
+  yield all([
+    call(onCreateOrderStart),
+    call(onGetOrdersStart),
+    call(onGetOrderStart)
+  ]);
 }

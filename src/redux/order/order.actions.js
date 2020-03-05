@@ -30,6 +30,21 @@ export const getOrdersFailure = error => ({
   payload: error
 });
 
+export const getOrderStart = orderId => ({
+  type: OrderActionTypes.GET_ORDER_START,
+  payload: orderId
+});
+
+export const getOrderSuccess = order => ({
+  type: OrderActionTypes.GET_ORDER_SUCCESS,
+  payload: order
+});
+
+export const getOrderFailure = error => ({
+  type: OrderActionTypes.GET_ORDER_FAILURE,
+  payload: error
+});
+
 export const crudOrderStatusReset = () => ({
   type: OrderActionTypes.CRUD_ORDER_STATUS_RESET
 });
