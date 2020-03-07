@@ -11,8 +11,6 @@ import {
 import { signUpStart, resetError } from "../../redux/user/user.actions";
 import Spinner from "../../components/spinner/spinner.component";
 
-import "./registerpage.styles.scss";
-
 const RegisterPage = ({
   error,
   signUpStart,

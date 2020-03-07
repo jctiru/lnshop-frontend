@@ -8,8 +8,6 @@ import { selectError } from "../../redux/user/user.selectors";
 import { signInStart, resetError } from "../../redux/user/user.actions";
 import Spinner from "../../components/spinner/spinner.component";
 
-import "./loginpage.styles.scss";
-
 const LoginPage = ({ error, signInStart, resetError, location }) => {
   const [userCredentials, setCredentials] = useState({
     email: "",

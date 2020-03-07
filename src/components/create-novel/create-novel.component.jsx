@@ -16,8 +16,6 @@ import {
 } from "../../redux/novel/novel.actions";
 import Spinner from "../../components/spinner/spinner.component";
 
-import "./create-novel.styles.scss";
-
 const CreateNovel = ({
   genresList,
   error,

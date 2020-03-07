@@ -4,8 +4,6 @@ import { Route } from "react-router-dom";
 import AdminLinks from "../../components/admin-links/admin-links.component";
 import Spinner from "../../components/spinner/spinner.component";
 
-import "./adminpage.styles.scss";
-
 const CreateNovelPage = lazy(() =>
   import("../create-novel/create-novel-page.component")
 );

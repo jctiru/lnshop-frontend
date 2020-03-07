@@ -7,8 +7,6 @@ import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
 import { signOutStart } from "../../redux/user/user.actions";
 
-import "./header.styles.scss";
-
 const Header = ({ currentUser, cartItemsCount, signOutStart }) => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
     <div className="container">
