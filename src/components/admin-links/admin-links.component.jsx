@@ -7,6 +7,11 @@ const AdminLinks = () => {
       <h4 className="card-header">Admin Links</h4>
       <ul className="list-group">
         <li className="list-group-item">
+          <Link className="nav-link" to="/admin">
+            Home
+          </Link>
+        </li>
+        <li className="list-group-item">
           <Link className="nav-link" to="/admin/create-novel">
             Create Novel
           </Link>
