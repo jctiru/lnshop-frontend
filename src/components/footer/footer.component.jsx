@@ -29,13 +29,6 @@ const Footer = () => {
           </div>
           <div className="col-md-2 mb-3">
             <h6 className="title font-bold">
-              <Link className="text-white" to="/contact">
-                Contact
-              </Link>
-            </h6>
-          </div>
-          <div className="col-md-2 mb-3">
-            <h6 className="title font-bold">
               <Link className="text-white" to="/cart">
                 Cart
               </Link>
