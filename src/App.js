@@ -8,6 +8,8 @@ import AdminRoute from "./components/routes/admin-route.component";
 import Header from "./components/header/header.component";
 import Footer from "./components/footer/footer.component";
 import Spinner from "./components/spinner/spinner.component";
+import ErrorBoundary from "./components/error-boundary/error-boundary.component";
+import ErrorDisplay from "./components/error-display/error-display.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 
@@ -38,31 +40,36 @@ const App = ({ checkUserSession, currentUser }) => {
     <>
       <Header />
       <main>
-        <Suspense fallback={<Spinner />}>
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/about" component={AboutPage} />
-            <Route exact path="/cart" component={CartPage} />
-            <Route
-              exact
-              path="/login"
-              render={props =>
-                currentUser ? <Redirect to="/" /> : <LoginPage {...props} />
-              }
-            />
-            <Route
-              exact
-              path="/register"
-              render={() =>
-                currentUser ? <Redirect to="/" /> : <RegisterPage />
-              }
-            />
-            <Route exact path="/novels" component={NovelsShopPage} />
-            <Route exact path="/novels/show/:novelId" component={NovelPage} />
-            <UserRoute path="/profile" component={ProfilePage} />
-            <AdminRoute path="/admin" component={AdminPage} />
-          </Switch>
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<Spinner />}>
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/about" component={AboutPage} />
+              <Route exact path="/cart" component={CartPage} />
+              <Route
+                exact
+                path="/login"
+                render={props =>
+                  currentUser ? <Redirect to="/" /> : <LoginPage {...props} />
+                }
+              />
+              <Route
+                exact
+                path="/register"
+                render={() =>
+                  currentUser ? <Redirect to="/" /> : <RegisterPage />
+                }
+              />
+              <Route exact path="/novels" component={NovelsShopPage} />
+              <Route exact path="/novels/show/:novelId" component={NovelPage} />
+              <UserRoute path="/profile" component={ProfilePage} />
+              <AdminRoute path="/admin" component={AdminPage} />
+              <Route
+                render={() => <ErrorDisplay errorMessage="Page not found :(" />}
+              />
+            </Switch>
+          </Suspense>
+        </ErrorBoundary>
       </main>
       <Footer />
     </>

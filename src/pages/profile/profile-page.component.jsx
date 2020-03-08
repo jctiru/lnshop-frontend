@@ -1,8 +1,9 @@
 import React, { lazy, Suspense } from "react";
-import { Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import ProfileLinks from "../../components/profile-links/profile-links.component";
 import Spinner from "../../components/spinner/spinner.component";
+import ErrorDisplay from "../../components/error-display/error-display.component";
 
 const DashboardHome = lazy(() =>
   import("../../components/dashboard-home/dashboard-home.component")
@@ -19,18 +20,27 @@ const ProfilePage = ({ match }) => {
         </div>
         <div className="col-md-9">
           <Suspense fallback={<Spinner />}>
-            <Route exact path={`${match.path}`} component={DashboardHome} />
-            {/* <Route
+            <Switch>
+              <Route exact path={`${match.path}`} component={DashboardHome} />
+              {/* <Route
               exact
               path={`${match.path}/manage-novels/:novelId`}
               component={UpdateNovelPage}
             /> */}
-            <Route exact path={`${match.path}/orders`} component={OrdersPage} />
-            <Route
-              exact
-              path={`${match.path}/orders/:orderId`}
-              component={OrderPage}
-            />
+              <Route
+                exact
+                path={`${match.path}/orders`}
+                component={OrdersPage}
+              />
+              <Route
+                exact
+                path={`${match.path}/orders/:orderId`}
+                component={OrderPage}
+              />
+              <Route
+                render={() => <ErrorDisplay errorMessage="Page not found :(" />}
+              />
+            </Switch>
           </Suspense>
         </div>
       </div>
