@@ -8,6 +8,7 @@ const DashboardHome = lazy(() =>
   import("../../components/dashboard-home/dashboard-home.component")
 );
 const OrdersPage = lazy(() => import("../orders/orders-page.component"));
+const OrderPage = lazy(() => import("../order/order-page.component"));
 
 const ProfilePage = ({ match }) => {
   return (
@@ -25,11 +26,11 @@ const ProfilePage = ({ match }) => {
               component={UpdateNovelPage}
             /> */}
             <Route exact path={`${match.path}/orders`} component={OrdersPage} />
-            {/* <Route
+            <Route
               exact
               path={`${match.path}/orders/:orderId`}
               component={OrderPage}
-            /> */}
+            />
           </Suspense>
         </div>
       </div>
