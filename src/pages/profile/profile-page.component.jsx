@@ -7,6 +7,7 @@ import Spinner from "../../components/spinner/spinner.component";
 const DashboardHome = lazy(() =>
   import("../../components/dashboard-home/dashboard-home.component")
 );
+const OrdersPage = lazy(() => import("../orders/orders-page.component"));
 
 const ProfilePage = ({ match }) => {
   return (
@@ -22,9 +23,9 @@ const ProfilePage = ({ match }) => {
               exact
               path={`${match.path}/manage-novels/:novelId`}
               component={UpdateNovelPage}
-            />
+            /> */}
             <Route exact path={`${match.path}/orders`} component={OrdersPage} />
-            <Route
+            {/* <Route
               exact
               path={`${match.path}/orders/:orderId`}
               component={OrderPage}

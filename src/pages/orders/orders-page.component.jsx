@@ -52,8 +52,9 @@ const OrdersPage = ({
       setPage(parseInt(queryStringObj.page));
     }
 
-    getOrdersStart("ADMIN", location.search);
-  }, [getOrdersStart, location.search]);
+    const fetchParam = location.pathname === "/admin/orders" ? "ADMIN" : "USER";
+    getOrdersStart(fetchParam, location.search);
+  }, [getOrdersStart, location.search, location.pathname]);
 
   const handlePageClick = data => {
     const querySearch = queryString.stringify(
