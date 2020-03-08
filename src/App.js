@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
+import UserRoute from "./components/routes/user-route.component";
 import AdminRoute from "./components/routes/admin-route.component";
 import Header from "./components/header/header.component";
 import Footer from "./components/footer/footer.component";
@@ -17,6 +18,9 @@ const AboutPage = lazy(() => import("./pages/about/about-page.component"));
 const LoginPage = lazy(() => import("./pages/login/loginpage.component"));
 const RegisterPage = lazy(() =>
   import("./pages/register/registerpage.component")
+);
+const ProfilePage = lazy(() =>
+  import("./pages/profile/profile-page.component")
 );
 const AdminPage = lazy(() => import("./pages/admin/adminpage.component"));
 const NovelsShopPage = lazy(() =>
@@ -55,6 +59,7 @@ const App = ({ checkUserSession, currentUser }) => {
             />
             <Route exact path="/novels" component={NovelsShopPage} />
             <Route exact path="/novels/show/:novelId" component={NovelPage} />
+            <UserRoute path="/profile" component={ProfilePage} />
             <AdminRoute path="/admin" component={AdminPage} />
           </Switch>
         </Suspense>
