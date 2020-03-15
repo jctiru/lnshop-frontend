@@ -50,3 +50,22 @@ export const signUpFailure = error => ({
   type: UserActionTypes.SIGN_UP_FAILURE,
   payload: error
 });
+
+export const emailVerificationStart = emailVerificationToken => ({
+  type: UserActionTypes.EMAIL_VERIFICATION_START,
+  payload: emailVerificationToken
+});
+
+export const emailVerificationSuccess = emailVerificationSuccessMessage => ({
+  type: UserActionTypes.EMAIL_VERIFICATION_SUCCESS,
+  payload: emailVerificationSuccessMessage
+});
+
+export const emailVerificationFailure = error => ({
+  type: UserActionTypes.EMAIL_VERIFICATION_FAILURE,
+  payload: error
+});
+
+export const crudUserStatusReset = () => ({
+  type: UserActionTypes.CRUD_USER_STATUS_RESET
+});

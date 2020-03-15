@@ -15,3 +15,10 @@ export const registerApi = (firstName, lastName, email, password) => {
     data: { firstName, lastName, email, password }
   });
 };
+
+export const verifyEmailApi = emailVerificationToken => {
+  return axios({
+    url: `/users/email-verification?token=${emailVerificationToken}`,
+    method: "get"
+  });
+};

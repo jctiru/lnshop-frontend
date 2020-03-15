@@ -7,9 +7,11 @@ import {
   signInFailure,
   signOutSuccess,
   signUpSuccess,
-  signUpFailure
+  signUpFailure,
+  emailVerificationSuccess,
+  emailVerificationFailure
 } from "./user.actions";
-import { loginApi, registerApi } from "../api/user.api";
+import { loginApi, registerApi, verifyEmailApi } from "../api/user.api";
 import { selectCurrentUser } from "./user.selectors";
 
 function* isUserAuthenticated() {
@@ -38,9 +40,22 @@ function* signOut() {
 function* signUp({ payload: { firstName, lastName, email, password } }) {
   try {
     yield call(registerApi, firstName, lastName, email, password);
-    yield put(signUpSuccess("Registered successfully. You can now login."));
+    yield put(
+      signUpSuccess(
+        "Initial registration complete. Please check your email for email verification."
+      )
+    );
   } catch (error) {
     yield put(signUpFailure(error.response.data));
+  }
+}
+
+function* verifyEmail({ payload: { emailVerificationToken } }) {
+  try {
+    const { data } = yield call(verifyEmailApi, emailVerificationToken);
+    yield put(emailVerificationSuccess(data));
+  } catch (error) {
+    yield put(emailVerificationFailure(error.response.data));
   }
 }
 
@@ -60,11 +75,16 @@ function* onSignUpStart() {
   yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
 
+function* onEmailVerificationStart() {
+  yield takeLatest(UserActionTypes.EMAIL_VERIFICATION_START, verifyEmail);
+}
+
 export function* userSagas() {
   yield all([
     call(onSignInStart),
     call(onCheckUserSession),
     call(onSignOutStart),
-    call(onSignUpStart)
+    call(onSignUpStart),
+    call(onEmailVerificationStart)
   ]);
 }

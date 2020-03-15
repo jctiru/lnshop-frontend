@@ -28,6 +28,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
     case UserActionTypes.SIGN_UP_SUCCESS:
+    case UserActionTypes.EMAIL_VERIFICATION_SUCCESS:
       return {
         ...state,
         currentUser: null,
@@ -37,11 +38,18 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case UserActionTypes.SIGN_IN_FAILURE:
     case UserActionTypes.SIGN_OUT_FAILURE:
     case UserActionTypes.SIGN_UP_FAILURE:
+    case UserActionTypes.EMAIL_VERIFICATION_FAILURE:
       return {
         ...state,
         currentUser: null,
         signUpSuccessMessage: null,
         error: action.payload
+      };
+    case UserActionTypes.CRUD_USER_STATUS_RESET:
+      return {
+        ...state,
+        signUpSuccessMessage: null,
+        error: null
       };
     default:
       return state;

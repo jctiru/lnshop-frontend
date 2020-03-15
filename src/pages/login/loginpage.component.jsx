@@ -43,7 +43,11 @@ const LoginPage = ({ error, signInStart, resetError, location }) => {
       <div className="row">
         <div className="col-md-6 mx-auto">
           {error ? (
-            <div className="alert alert-danger">Wrong credentials.</div>
+            <div className="alert alert-danger">
+              {error.status === 401
+                ? "Wrong credentials."
+                : "Please check your email for email verification."}
+            </div>
           ) : null}
           <LoadingOverlay active={isLoading} spinner={<Spinner />}>
             <div className="card border-secondary card-body bg-light mt-5 mb-5">

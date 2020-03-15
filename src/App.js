@@ -30,6 +30,9 @@ const NovelsShopPage = lazy(() =>
 );
 const NovelPage = lazy(() => import("./pages/novel/novel-page.component"));
 const CartPage = lazy(() => import("./pages/cart/cart-page.component"));
+const EmailVerificationPage = lazy(() =>
+  import("./pages/email-verification/email-verification-page.component")
+);
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -64,6 +67,11 @@ const App = ({ checkUserSession, currentUser }) => {
               <Route exact path="/novels/show/:novelId" component={NovelPage} />
               <UserRoute path="/profile" component={ProfilePage} />
               <AdminRoute path="/admin" component={AdminPage} />
+              <Route
+                exact
+                path="/email-verification"
+                component={EmailVerificationPage}
+              />
               <Route
                 render={() => <ErrorDisplay errorMessage="Page not found :(" />}
               />
