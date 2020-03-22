@@ -9,7 +9,7 @@ export const selectCurrentUser = createSelector(
 
 export const selectError = createSelector([selectUser], user => user.error);
 
-export const selectSignUpSuccessMessage = createSelector(
+export const selectSuccessMessage = createSelector(
   [selectUser],
-  user => user.signUpSuccessMessage
+  user => user.successMessage
 );

@@ -2,7 +2,7 @@ import { UserActionTypes } from "./user.types";
 
 const INITIAL_STATE = {
   currentUser: null,
-  signUpSuccessMessage: null,
+  successMessage: null,
   error: null
 };
 
@@ -17,14 +17,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
-        signUpSuccessMessage: null,
+        successMessage: null,
         error: null
       };
     case UserActionTypes.SIGN_OUT_SUCCESS:
       return {
         ...state,
         currentUser: null,
-        signUpSuccessMessage: null,
+        successMessage: null,
         error: null
       };
     case UserActionTypes.SIGN_UP_SUCCESS:
@@ -33,7 +33,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: null,
-        signUpSuccessMessage: action.payload,
+        successMessage: action.payload,
         error: null
       };
     case UserActionTypes.SIGN_IN_FAILURE:
@@ -44,13 +44,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: null,
-        signUpSuccessMessage: null,
+        successMessage: null,
         error: action.payload
       };
     case UserActionTypes.CRUD_USER_STATUS_RESET:
       return {
         ...state,
-        signUpSuccessMessage: null,
+        successMessage: null,
         error: null
       };
     default:

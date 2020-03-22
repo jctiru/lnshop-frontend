@@ -6,17 +6,12 @@ import LoadingOverlay from "react-loading-overlay";
 
 import {
   selectError,
-  selectSignUpSuccessMessage
+  selectSuccessMessage
 } from "../../redux/user/user.selectors";
 import { signUpStart, resetError } from "../../redux/user/user.actions";
 import Spinner from "../../components/spinner/spinner.component";
 
-const RegisterPage = ({
-  error,
-  signUpStart,
-  signUpSuccessMessage,
-  resetError
-}) => {
+const RegisterPage = ({ error, signUpStart, successMessage, resetError }) => {
   const [userCredentials, setCredentials] = useState({
     firstName: "",
     lastName: "",
@@ -49,7 +44,7 @@ const RegisterPage = ({
 
   useEffect(() => {
     setIsLoading(false);
-  }, [error, signUpSuccessMessage]);
+  }, [error, successMessage]);
 
   const {
     firstName,
@@ -80,8 +75,8 @@ const RegisterPage = ({
     <div className="container my-5 pb-5">
       <div className="row">
         <div className="col-md-6 mx-auto">
-          {signUpSuccessMessage ? (
-            <div className="alert alert-success">{signUpSuccessMessage}</div>
+          {successMessage ? (
+            <div className="alert alert-success">{successMessage}</div>
           ) : null}
           <LoadingOverlay active={isLoading} spinner={<Spinner />}>
             <div className="card border-secondary card-body bg-light mt-5 mb-5">
@@ -101,7 +96,7 @@ const RegisterPage = ({
                     value={firstName}
                     onChange={handleChange}
                     required
-                    disabled={signUpSuccessMessage}
+                    disabled={successMessage}
                   />
                   <span className="invalid-feedback">{errors.firstName}</span>
                 </div>
@@ -118,7 +113,7 @@ const RegisterPage = ({
                     value={lastName}
                     onChange={handleChange}
                     required
-                    disabled={signUpSuccessMessage}
+                    disabled={successMessage}
                   />
                   <span className="invalid-feedback">{errors.lastName}</span>
                 </div>
@@ -135,7 +130,7 @@ const RegisterPage = ({
                     value={email}
                     onChange={handleChange}
                     required
-                    disabled={signUpSuccessMessage}
+                    disabled={successMessage}
                   />
                   <span className="invalid-feedback">
                     {errors.email || errors.error}
@@ -154,7 +149,7 @@ const RegisterPage = ({
                     value={password}
                     onChange={handleChange}
                     required
-                    disabled={signUpSuccessMessage}
+                    disabled={successMessage}
                   />
                   <span className="invalid-feedback">{errors.password}</span>
                 </div>
@@ -171,7 +166,7 @@ const RegisterPage = ({
                     value={confirmPassword}
                     onChange={handleChange}
                     required
-                    disabled={signUpSuccessMessage}
+                    disabled={successMessage}
                   />
                   <span className="invalid-feedback">
                     {errors.confirmPassword}
@@ -183,7 +178,7 @@ const RegisterPage = ({
                       type="submit"
                       value="Register"
                       className="btn btn-success btn-block"
-                      disabled={signUpSuccessMessage}
+                      disabled={successMessage}
                     />
                   </div>
                   <div className="col">
@@ -203,7 +198,7 @@ const RegisterPage = ({
 
 const mapStateToProps = createStructuredSelector({
   error: selectError,
-  signUpSuccessMessage: selectSignUpSuccessMessage
+  successMessage: selectSuccessMessage
 });
 
 const mapDispatchToProps = dispatch => ({

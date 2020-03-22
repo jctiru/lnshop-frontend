@@ -4,7 +4,7 @@ import { createStructuredSelector } from "reselect";
 import LoadingOverlay from "react-loading-overlay";
 
 import {
-  selectSignUpSuccessMessage,
+  selectSuccessMessage,
   selectError
 } from "../../redux/user/user.selectors";
 import {
@@ -13,7 +13,7 @@ import {
 } from "../../redux/user/user.actions";
 
 const PasswordResetRequestPage = ({
-  signUpSuccessMessage,
+  successMessage,
   error,
   passwordResetRequestStart,
   crudUserStatusReset
@@ -28,10 +28,10 @@ const PasswordResetRequestPage = ({
       return;
     }
 
-    if (signUpSuccessMessage || error) {
+    if (successMessage || error) {
       crudUserStatusReset();
     }
-  }, [signUpSuccessMessage, error, crudUserStatusReset]);
+  }, [successMessage, error, crudUserStatusReset]);
 
   useEffect(() => {
     if (initialRender.current) {
@@ -39,11 +39,11 @@ const PasswordResetRequestPage = ({
       return;
     }
 
-    if (signUpSuccessMessage !== null || error !== null) {
+    if (successMessage !== null || error !== null) {
       setIsLoading(false);
       setDisabled(true);
     }
-  }, [signUpSuccessMessage, error]);
+  }, [successMessage, error]);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -62,7 +62,7 @@ const PasswordResetRequestPage = ({
           {error ? (
             <div className="alert alert-danger">Email not found.</div>
           ) : null}
-          {signUpSuccessMessage ? (
+          {successMessage ? (
             <div className="alert alert-success">
               Please check your email for password reset link.
             </div>
@@ -106,7 +106,7 @@ const PasswordResetRequestPage = ({
 };
 
 const mapStateToProps = createStructuredSelector({
-  signUpSuccessMessage: selectSignUpSuccessMessage,
+  successMessage: selectSuccessMessage,
   error: selectError
 });
 

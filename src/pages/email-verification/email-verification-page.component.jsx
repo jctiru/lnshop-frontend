@@ -6,7 +6,7 @@ import queryString from "query-string";
 import LoadingOverlay from "react-loading-overlay";
 
 import {
-  selectSignUpSuccessMessage,
+  selectSuccessMessage,
   selectError
 } from "../../redux/user/user.selectors";
 import {
@@ -16,7 +16,7 @@ import {
 import Spinner from "../../components/spinner/spinner.component";
 
 const EmailVerificationPage = ({
-  signUpSuccessMessage,
+  successMessage,
   error,
   emailVerificationStart,
   crudUserStatusReset
@@ -30,10 +30,10 @@ const EmailVerificationPage = ({
     if (!initialRender.current) {
       return;
     }
-    if (signUpSuccessMessage || error) {
+    if (successMessage || error) {
       crudUserStatusReset();
     }
-  }, [signUpSuccessMessage, error, crudUserStatusReset]);
+  }, [successMessage, error, crudUserStatusReset]);
 
   useEffect(() => {
     if (!initialRender.current) {
@@ -56,14 +56,14 @@ const EmailVerificationPage = ({
       return;
     }
 
-    if (signUpSuccessMessage !== null) {
+    if (successMessage !== null) {
       setMessage("Email successfully validated! You can now login!");
     } else if (error !== null) {
       setMessage("Email verification link expired or not valid");
     }
 
     setIsLoading(false);
-  }, [signUpSuccessMessage, error]);
+  }, [successMessage, error]);
 
   return (
     <div className="container">
@@ -84,7 +84,7 @@ const EmailVerificationPage = ({
 };
 
 const mapStateToProps = createStructuredSelector({
-  signUpSuccessMessage: selectSignUpSuccessMessage,
+  successMessage: selectSuccessMessage,
   error: selectError
 });
 
