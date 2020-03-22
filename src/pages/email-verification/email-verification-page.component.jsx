@@ -13,7 +13,6 @@ import {
   emailVerificationStart,
   crudUserStatusReset
 } from "../../redux/user/user.actions";
-import Spinner from "../../components/spinner/spinner.component";
 
 const EmailVerificationPage = ({
   successMessage,
