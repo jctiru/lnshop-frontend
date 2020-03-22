@@ -82,6 +82,13 @@ const LoginPage = ({ error, signInStart, resetError, location }) => {
                   />
                   <span className="invalid-feedback">PASSWORD ERROR</span>
                 </div>
+                <div className="row mb-3">
+                  <div className="col">
+                    <Link to="/login/password-reset-request">
+                      <u>Forgot password?</u>
+                    </Link>
+                  </div>
+                </div>
                 <div className="row">
                   <div className="col">
                     <input

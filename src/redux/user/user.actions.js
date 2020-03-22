@@ -66,6 +66,21 @@ export const emailVerificationFailure = error => ({
   payload: error
 });
 
+export const passwordResetRequestStart = email => ({
+  type: UserActionTypes.PASSWORD_RESET_REQUEST_START,
+  payload: email
+});
+
+export const passwordResetRequestSuccess = passwordResetRequestSuccessMessage => ({
+  type: UserActionTypes.PASSWORD_RESET_REQUEST_SUCCESS,
+  payload: passwordResetRequestSuccessMessage
+});
+
+export const passwordResetRequestFailure = error => ({
+  type: UserActionTypes.PASSWORD_RESET_REQUEST_FAILURE,
+  payload: error
+});
+
 export const crudUserStatusReset = () => ({
   type: UserActionTypes.CRUD_USER_STATUS_RESET
 });

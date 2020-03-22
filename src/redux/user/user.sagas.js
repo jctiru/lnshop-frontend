@@ -9,9 +9,16 @@ import {
   signUpSuccess,
   signUpFailure,
   emailVerificationSuccess,
-  emailVerificationFailure
+  emailVerificationFailure,
+  passwordResetRequestSuccess,
+  passwordResetRequestFailure
 } from "./user.actions";
-import { loginApi, registerApi, verifyEmailApi } from "../api/user.api";
+import {
+  loginApi,
+  registerApi,
+  verifyEmailApi,
+  requestPasswordResetApi
+} from "../api/user.api";
 import { selectCurrentUser } from "./user.selectors";
 
 function* isUserAuthenticated() {
@@ -59,6 +66,15 @@ function* verifyEmail({ payload: { emailVerificationToken } }) {
   }
 }
 
+function* requestPasswordReset({ payload: { email } }) {
+  try {
+    const { data } = yield call(requestPasswordResetApi, email);
+    yield put(passwordResetRequestSuccess(data));
+  } catch (error) {
+    yield put(passwordResetRequestFailure(error.response.data));
+  }
+}
+
 function* onCheckUserSession() {
   yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
@@ -79,12 +95,20 @@ function* onEmailVerificationStart() {
   yield takeLatest(UserActionTypes.EMAIL_VERIFICATION_START, verifyEmail);
 }
 
+function* onPasswordResetRequestStart() {
+  yield takeLatest(
+    UserActionTypes.PASSWORD_RESET_REQUEST_START,
+    requestPasswordReset
+  );
+}
+
 export function* userSagas() {
   yield all([
     call(onSignInStart),
     call(onCheckUserSession),
     call(onSignOutStart),
     call(onSignUpStart),
-    call(onEmailVerificationStart)
+    call(onEmailVerificationStart),
+    call(onPasswordResetRequestStart)
   ]);
 }

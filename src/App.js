@@ -33,6 +33,9 @@ const CartPage = lazy(() => import("./pages/cart/cart-page.component"));
 const EmailVerificationPage = lazy(() =>
   import("./pages/email-verification/email-verification-page.component")
 );
+const PasswordResetRequestPage = lazy(() =>
+  import("./pages/password-reset-request/password-reset-request-page.component")
+);
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -71,6 +74,11 @@ const App = ({ checkUserSession, currentUser }) => {
                 exact
                 path="/email-verification"
                 component={EmailVerificationPage}
+              />
+              <Route
+                exact
+                path="/login/password-reset-request"
+                component={PasswordResetRequestPage}
               />
               <Route
                 render={() => <ErrorDisplay errorMessage="Page not found :(" />}

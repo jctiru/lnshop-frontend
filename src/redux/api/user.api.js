@@ -22,3 +22,11 @@ export const verifyEmailApi = emailVerificationToken => {
     method: "get"
   });
 };
+
+export const requestPasswordResetApi = email => {
+  return axios({
+    url: "/users/password-reset-request",
+    method: "post",
+    data: { email }
+  });
+};
