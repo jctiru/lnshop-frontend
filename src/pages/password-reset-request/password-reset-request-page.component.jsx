@@ -41,7 +41,10 @@ const PasswordResetRequestPage = ({
 
     if (successMessage !== null || error !== null) {
       setIsLoading(false);
-      setDisabled(true);
+
+      if (successMessage !== null) {
+        setDisabled(true);
+      }
     }
   }, [successMessage, error]);
 
