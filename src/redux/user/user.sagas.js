@@ -11,13 +11,16 @@ import {
   emailVerificationSuccess,
   emailVerificationFailure,
   passwordResetRequestSuccess,
-  passwordResetRequestFailure
+  passwordResetRequestFailure,
+  passwordResetSuccess,
+  passwordResetFailure
 } from "./user.actions";
 import {
   loginApi,
   registerApi,
   verifyEmailApi,
-  requestPasswordResetApi
+  requestPasswordResetApi,
+  resetPasswordApi
 } from "../api/user.api";
 import { selectCurrentUser } from "./user.selectors";
 
@@ -75,6 +78,15 @@ function* requestPasswordReset({ payload: { email } }) {
   }
 }
 
+function* resetPassword({ payload: { token, password } }) {
+  try {
+    const { data } = yield call(resetPasswordApi, token, password);
+    yield put(passwordResetSuccess(data));
+  } catch (error) {
+    yield put(passwordResetFailure(error.response.data));
+  }
+}
+
 function* onCheckUserSession() {
   yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
@@ -102,6 +114,10 @@ function* onPasswordResetRequestStart() {
   );
 }
 
+function* onPasswordResetStart() {
+  yield takeLatest(UserActionTypes.PASSWORD_RESET_START, resetPassword);
+}
+
 export function* userSagas() {
   yield all([
     call(onSignInStart),
@@ -109,6 +125,7 @@ export function* userSagas() {
     call(onSignOutStart),
     call(onSignUpStart),
     call(onEmailVerificationStart),
-    call(onPasswordResetRequestStart)
+    call(onPasswordResetRequestStart),
+    call(onPasswordResetStart)
   ]);
 }

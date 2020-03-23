@@ -81,6 +81,21 @@ export const passwordResetRequestFailure = error => ({
   payload: error
 });
 
+export const passwordResetStart = tokenAndPassword => ({
+  type: UserActionTypes.PASSWORD_RESET_START,
+  payload: tokenAndPassword
+});
+
+export const passwordResetSuccess = passwordResetSuccessMessage => ({
+  type: UserActionTypes.PASSWORD_RESET_SUCCESS,
+  payload: passwordResetSuccessMessage
+});
+
+export const passwordResetFailure = error => ({
+  type: UserActionTypes.PASSWORD_RESET_FAILURE,
+  payload: error
+});
+
 export const crudUserStatusReset = () => ({
   type: UserActionTypes.CRUD_USER_STATUS_RESET
 });

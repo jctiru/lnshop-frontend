@@ -30,6 +30,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case UserActionTypes.SIGN_UP_SUCCESS:
     case UserActionTypes.EMAIL_VERIFICATION_SUCCESS:
     case UserActionTypes.PASSWORD_RESET_REQUEST_SUCCESS:
+    case UserActionTypes.PASSWORD_RESET_SUCCESS:
       return {
         ...state,
         currentUser: null,
@@ -41,6 +42,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case UserActionTypes.SIGN_UP_FAILURE:
     case UserActionTypes.EMAIL_VERIFICATION_FAILURE:
     case UserActionTypes.PASSWORD_RESET_REQUEST_FAILURE:
+    case UserActionTypes.PASSWORD_RESET_FAILURE:
       return {
         ...state,
         currentUser: null,

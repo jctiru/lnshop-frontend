@@ -30,3 +30,11 @@ export const requestPasswordResetApi = email => {
     data: { email }
   });
 };
+
+export const resetPasswordApi = (token, password) => {
+  return axios({
+    url: "/users/password-reset",
+    method: "post",
+    data: { token, password }
+  });
+};
