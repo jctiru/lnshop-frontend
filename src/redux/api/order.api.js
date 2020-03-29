@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "../config";
 
 export const createOrderApi = (
   authToken,
@@ -7,7 +8,7 @@ export const createOrderApi = (
   cartItems
 ) => {
   return axios({
-    url: "/orders",
+    url: `${config.apiUrl}/orders`,
     method: "post",
     data: { stripeTokenId, addressArgs, cartItems },
     headers: {
@@ -18,7 +19,7 @@ export const createOrderApi = (
 
 export const getOrdersApi = (authority, authToken, urlParams) => {
   return axios({
-    url: `/orders${authority === "ADMIN" ? "/admin" : ""}${
+    url: `${config.apiUrl}/orders${authority === "ADMIN" ? "/admin" : ""}${
       urlParams ? urlParams : ""
     }`,
     method: "get",
@@ -30,7 +31,7 @@ export const getOrdersApi = (authority, authToken, urlParams) => {
 
 export const getOrderApi = (authToken, orderId) => {
   return axios({
-    url: `/orders/${orderId}`,
+    url: `${config.apiUrl}/orders/${orderId}`,
     method: "get",
     headers: {
       Authorization: `Bearer ${authToken}`

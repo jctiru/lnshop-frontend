@@ -1,29 +1,30 @@
 import axios from "axios";
+import config from "../config";
 
 export const getGenresApi = () => {
   return axios({
-    url: "/lightnovels/genres",
+    url: `${config.apiUrl}/lightnovels/genres`,
     method: "get"
   });
 };
 
 export const getNovelsApi = urlParams => {
   return axios({
-    url: `/lightnovels${urlParams ? urlParams : ""}`,
+    url: `${config.apiUrl}/lightnovels${urlParams ? urlParams : ""}`,
     method: "get"
   });
 };
 
 export const getNovelApi = novelId => {
   return axios({
-    url: `/lightnovels/${novelId}`,
+    url: `${config.apiUrl}/lightnovels/${novelId}`,
     method: "get"
   });
 };
 
 export const createNovelApi = (token, novel) => {
   return axios({
-    url: "/lightnovels",
+    url: `${config.apiUrl}/lightnovels`,
     method: "post",
     data: novel,
     headers: {
