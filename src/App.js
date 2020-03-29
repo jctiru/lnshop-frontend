@@ -81,12 +81,20 @@ const App = ({ checkUserSession, currentUser }) => {
               <Route
                 exact
                 path="/login/password-reset-request"
-                component={PasswordResetRequestPage}
+                render={() =>
+                  currentUser ? (
+                    <Redirect to="/" />
+                  ) : (
+                    <PasswordResetRequestPage />
+                  )
+                }
               />
               <Route
                 exact
                 path="/password-reset-request"
-                component={PasswordResetPage}
+                render={() =>
+                  currentUser ? <Redirect to="/" /> : <PasswordResetPage />
+                }
               />
               <Route
                 render={() => <ErrorDisplay errorMessage="Page not found :(" />}
