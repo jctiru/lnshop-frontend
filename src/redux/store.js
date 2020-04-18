@@ -13,8 +13,9 @@ const middllewares = [sagaMiddleware];
 
 if (process.env.NODE_ENV === "development") {
   middllewares.push(logger);
-  middllewares.push(routerMiddleware);
 }
+
+middllewares.push(routerMiddleware);
 
 export const store = createStore(rootReducer, applyMiddleware(...middllewares));
 
