@@ -11,7 +11,7 @@ import Spinner from "../../components/spinner/spinner.component";
 const LoginPage = ({ error, signInStart, resetError, location }) => {
   const [userCredentials, setCredentials] = useState({
     email: "",
-    password: ""
+    password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,15 +25,13 @@ const LoginPage = ({ error, signInStart, resetError, location }) => {
 
   const { email, password } = userCredentials;
 
-  const { from } = location.state || { from: { pathname: "/" } };
-
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    signInStart(email, password, from);
+    signInStart(email, password);
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { value, name } = event.target;
     setCredentials({ ...userCredentials, [name]: value });
   };
@@ -113,13 +111,12 @@ const LoginPage = ({ error, signInStart, resetError, location }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  error: selectError
+  error: selectError,
 });
 
-const mapDispatchToProps = dispatch => ({
-  signInStart: (email, password, from) =>
-    dispatch(signInStart({ email, password, from })),
-  resetError: () => dispatch(resetError())
+const mapDispatchToProps = (dispatch) => ({
+  signInStart: (email, password) => dispatch(signInStart({ email, password })),
+  resetError: () => dispatch(resetError()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

@@ -58,9 +58,23 @@ const App = ({ checkUserSession, currentUser }) => {
               <Route
                 exact
                 path="/login"
-                render={props =>
-                  currentUser ? <Redirect to="/" /> : <LoginPage {...props} />
-                }
+                render={(props) => {
+                  if (currentUser) {
+                    if (
+                      typeof props.location.state !== "undefined" &&
+                      currentUser.role !== "ADMIN" &&
+                      props.location.state.from.pathname.startsWith("/admin")
+                    ) {
+                      return <Redirect to="/" />;
+                    } else if (typeof props.location.state !== "undefined") {
+                      return <Redirect to={props.location.state.from} />;
+                    } else {
+                      return <Redirect to="/" />;
+                    }
+                  } else {
+                    return <LoginPage {...props} />;
+                  }
+                }}
               />
               <Route
                 exact
@@ -109,11 +123,11 @@ const App = ({ checkUserSession, currentUser }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
 });
 
-const mapDispatchToProps = dispatch => ({
-  checkUserSession: () => dispatch(checkUserSession())
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: () => dispatch(checkUserSession()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

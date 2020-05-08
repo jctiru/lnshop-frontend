@@ -1,8 +1,9 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const CartLogin = ({ disabled = false }) => {
   const history = useHistory();
+  const location = useLocation();
 
   return (
     <>
@@ -33,7 +34,7 @@ const CartLogin = ({ disabled = false }) => {
               </button>
               <button
                 className="btn btn-info"
-                onClick={() => history.replace("/login", { from: "/cart" })}
+                onClick={() => history.replace("/login", { from: location })}
                 data-dismiss="modal"
               >
                 Login

@@ -8,20 +8,24 @@ import { selectCurrentUser } from "../../redux/user/user.selectors";
 const AdminRoute = ({ currentUser, component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      currentUser !== null && currentUser.role === "ADMIN" ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{ pathname: "/login", state: { from: props.location } }}
-        />
-      )
-    }
+    render={(props) => {
+      if (currentUser !== null && currentUser.role === "ADMIN") {
+        return <Component {...props} />;
+      } else if (currentUser !== null) {
+        return <Redirect to="/" />;
+      } else {
+        return (
+          <Redirect
+            to={{ pathname: "/login", state: { from: props.location } }}
+          />
+        );
+      }
+    }}
   />
 );
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
 });
 
 export default connect(mapStateToProps, null)(AdminRoute);

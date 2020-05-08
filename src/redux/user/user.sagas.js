@@ -1,5 +1,4 @@
 import { takeLatest, put, all, call, select } from "redux-saga/effects";
-import { replace } from "redux-first-history";
 
 import { UserActionTypes } from "./user.types";
 import {
@@ -13,14 +12,14 @@ import {
   passwordResetRequestSuccess,
   passwordResetRequestFailure,
   passwordResetSuccess,
-  passwordResetFailure
+  passwordResetFailure,
 } from "./user.actions";
 import {
   loginApi,
   registerApi,
   verifyEmailApi,
   requestPasswordResetApi,
-  resetPasswordApi
+  resetPasswordApi,
 } from "../api/user.api";
 import { selectCurrentUser } from "./user.selectors";
 
@@ -33,11 +32,10 @@ function* isUserAuthenticated() {
   }
 }
 
-function* signInWithEmail({ payload: { email, password, from } }) {
+function* signInWithEmail({ payload: { email, password } }) {
   try {
     const { data } = yield call(loginApi, email, password);
     yield put(signInSuccess(data));
-    yield put(replace(from));
   } catch (error) {
     yield put(signInFailure(error.response.data));
   }
@@ -126,6 +124,6 @@ export function* userSagas() {
     call(onSignUpStart),
     call(onEmailVerificationStart),
     call(onPasswordResetRequestStart),
-    call(onPasswordResetStart)
+    call(onPasswordResetStart),
   ]);
 }
