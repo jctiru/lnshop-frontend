@@ -4,21 +4,21 @@ import config from "../config";
 export const getGenresApi = () => {
   return axios({
     url: `${config.apiUrl}/lightnovels/genres`,
-    method: "get"
+    method: "get",
   });
 };
 
-export const getNovelsApi = urlParams => {
+export const getNovelsApi = (urlParams) => {
   return axios({
     url: `${config.apiUrl}/lightnovels${urlParams ? urlParams : ""}`,
-    method: "get"
+    method: "get",
   });
 };
 
-export const getNovelApi = novelId => {
+export const getNovelApi = (novelId) => {
   return axios({
     url: `${config.apiUrl}/lightnovels/${novelId}`,
-    method: "get"
+    method: "get",
   });
 };
 
@@ -29,29 +29,29 @@ export const createNovelApi = (token, novel) => {
     data: novel,
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
-    }
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 
 export const updateNovelApi = (token, lightNovelId, novel) => {
   return axios({
-    url: `/lightnovels/${lightNovelId}`,
+    url: `${config.apiUrl}/lightnovels/${lightNovelId}`,
     method: "put",
     data: novel,
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
-    }
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 
 export const deleteNovelApi = (token, lightNovelId) => {
   return axios({
-    url: `/lightnovels/${lightNovelId}`,
+    url: `${config.apiUrl}/lightnovels/${lightNovelId}`,
     method: "delete",
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 };
