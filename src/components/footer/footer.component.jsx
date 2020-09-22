@@ -53,15 +53,6 @@ const Footer = () => {
         <div className="row py-3">
           <div className="col-md-12">
             <div className="mb-2 text-center">
-              {/* Facebook */}
-              <a
-                href="https://www.facebook.com/jctiru"
-                className="text-white"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i className="fa fa-facebook fa-lg white-text mr-4"> </i>
-              </a>
               {/* Linkedin */}
               <a
                 href="https://www.linkedin.com/in/jctiru/"
@@ -86,11 +77,7 @@ const Footer = () => {
       </div>
       <div>
         <div className="container-fluid text-center pb-3">
-          © 2020 Copyright:{" "}
-          <a className="text-white" href="<?php echo URLROOT ?>">
-            {" "}
-            LNShop{" "}
-          </a>
+          © 2020 Copyright: LNShop
         </div>
       </div>
     </footer>
