@@ -179,6 +179,7 @@ const NovelsShopPage = ({
       { skipNull: true }
     );
     history.push(location.pathname + "?" + querySearch);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSearchCLick = () => {
