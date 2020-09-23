@@ -19,7 +19,7 @@ Frontend repo goes through TravisCI pipeline which builds the assets and uploads
 
 ![Flow.jpg](Flow.jpg)
 
-## React SPA Frontend on <https://github.com/jctiru/lnshop-frontend>
+## Spring Boot Backend on <https://github.com/jctiru/lnshop-backend>
 
 ## Features
 
