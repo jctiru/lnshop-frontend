@@ -1,6 +1,6 @@
 # LNShop
 
-[![Build Status](https://travis-ci.com/jctiru/lnshop-backend.svg?branch=master)](https://travis-ci.com/jctiru/lnshop-backend)
+[![Build Status](https://travis-ci.com/jctiru/lnshop-frontend.svg?branch=master)](https://travis-ci.com/jctiru/lnshop-frontend)
 
 ## Live Link
 
